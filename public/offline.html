@@ -1,0 +1,73 @@
+<!DOCTYPE html>
+<html lang="id">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Offline - RT Management System</title>
+  <link rel="stylesheet" href="/css/tailwind.min.css">
+  <link rel="stylesheet" href="/css/styles.css">
+  <link rel="manifest" href="/manifest.json">
+  <meta name="theme-color" content="#4CAF50">
+</head>
+<body class="bg-gray-100 min-h-screen flex flex-col">
+  <div class="flex-1 flex flex-col items-center justify-center p-4">
+    <div class="bg-white rounded-lg shadow-md p-8 max-w-md w-full text-center">
+      <svg xmlns="http://www.w3.org/2000/svg" class="h-16 w-16 mx-auto text-gray-400 mb-4" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+        <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M18.364 5.636a9 9 0 010 12.728m-3.536-3.536a5 5 0 010-7.072m-3.182 3.182a1 1 0 11-1.414-1.414 1 1 0 011.414 1.414z" />
+      </svg>
+      <h1 class="text-2xl font-bold text-gray-800 mb-2">Anda Sedang Offline</h1>
+      <p class="text-gray-600 mb-6">Koneksi internet tidak tersedia. Beberapa fitur mungkin tidak berfungsi dengan baik.</p>
+      
+      <div class="space-y-4">
+        <div class="bg-gray-50 p-4 rounded-lg">
+          <h2 class="font-medium text-gray-800 mb-2">Fitur yang tersedia saat offline:</h2>
+          <ul class="text-left text-gray-600 space-y-1">
+            <li class="flex items-center">
+              <svg xmlns="http://www.w3.org/2000/svg" class="h-5 w-5 text-green-500 mr-2" viewBox="0 0 20 20" fill="currentColor">
+                <path fill-rule="evenodd" d="M10 18a8 8 0 100-16 8 8 0 000 16zm3.707-9.293a1 1 0 00-1.414-1.414L9 10.586 7.707 9.293a1 1 0 00-1.414 1.414l2 2a1 1 0 001.414 0l4-4z" clip-rule="evenodd" />
+              </svg>
+              Melihat pengumuman yang sudah diakses
+            </li>
+            <li class="flex items-center">
+              <svg xmlns="http://www.w3.org/2000/svg" class="h-5 w-5 text-green-500 mr-2" viewBox="0 0 20 20" fill="currentColor">
+                <path fill-rule="evenodd" d="M10 18a8 8 0 100-16 8 8 0 000 16zm3.707-9.293a1 1 0 00-1.414-1.414L9 10.586 7.707 9.293a1 1 0 00-1.414 1.414l2 2a1 1 0 001.414 0l4-4z" clip-rule="evenodd" />
+              </svg>
+              Melihat jadwal kegiatan
+              clip-rule="evenodd" />
+              </svg>
+              Melihat jadwal kegiatan
+            </li>
+            <li class="flex items-center">
+              <svg xmlns="http://www.w3.org/2000/svg" class="h-5 w-5 text-green-500 mr-2" viewBox="0 0 20 20" fill="currentColor">
+                <path fill-rule="evenodd" d="M10 18a8 8 0 100-16 8 8 0 000 16zm3.707-9.293a1 1 0 00-1.414-1.414L9 10.586 7.707 9.293a1 1 0 00-1.414 1.414l2 2a1 1 0 001.414 0l4-4z" clip-rule="evenodd" />
+              </svg>
+              Melihat informasi iuran
+            </li>
+            <li class="flex items-center">
+              <svg xmlns="http://www.w3.org/2000/svg" class="h-5 w-5 text-green-500 mr-2" viewBox="0 0 20 20" fill="currentColor">
+                <path fill-rule="evenodd" d="M10 18a8 8 0 100-16 8 8 0 000 16zm3.707-9.293a1 1 0 00-1.414-1.414L9 10.586 7.707 9.293a1 1 0 00-1.414 1.414l2 2a1 1 0 001.414 0l4-4z" clip-rule="evenodd" />
+              </svg>
+              Melihat laporan yang sudah dibuat
+            </li>
+          </ul>
+        </div>
+      </div>
+      
+      <button id="reload-btn" class="mt-6 bg-green-500 hover:bg-green-600 text-white font-medium py-2 px-4 rounded transition-colors">
+        Coba Sambungkan Kembali
+      </button>
+    </div>
+  </div>
+  
+  <footer class="bg-white py-4 text-center text-gray-600 text-sm">
+    <p>RT Management System &copy; 2023</p>
+  </footer>
+  
+  <script>
+    // Reload button
+    document.getElementById('reload-btn').addEventListener('click', function() {
+      window.location.reload();
+    });
+  </script>
+</body>
+</html>

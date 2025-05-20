@@ -1,0 +1,222 @@
+/* Base Tailwind CSS */
+@import "https://cdn.jsdelivr.net/npm/tailwindcss@2.2.19/dist/tailwind.min.css";
+
+/* Custom styles for RT Management System */
+
+/* Transitions */
+.transition-all {
+  transition-property: all;
+  transition-timing-function: cubic-bezier(0.4, 0, 0.2, 1);
+  transition-duration: 150ms;
+}
+
+.transition-opacity {
+  transition-property: opacity;
+  transition-timing-function: cubic-bezier(0.4, 0, 0.2, 1);
+  transition-duration: 150ms;
+}
+
+/* Status badges */
+.badge {
+  @apply inline-flex items-center px-2.5 py-0.5 rounded-full text-xs font-medium;
+}
+
+.badge-pending {
+  @apply bg-yellow-100 text-yellow-800;
+}
+
+.badge-process {
+  @apply bg-blue-100 text-blue-800;
+}
+
+.badge-completed {
+  @apply bg-green-100 text-green-800;
+}
+
+.badge-rejected {
+  @apply bg-red-100 text-red-800;
+}
+
+/* Offline indicator */
+.offline-indicator {
+  @apply fixed top-0 left-0 right-0 bg-red-500 text-white text-center py-1 z-50;
+}
+
+/* PWA installed specific styles */
+.pwa-installed .browser-only {
+  display: none;
+}
+
+/* Offline mode styles */
+body.offline .online-only {
+  display: none;
+}
+
+body.online .offline-only {
+  display: none;
+}
+
+/* Print styles */
+@media print {
+  .no-print {
+    display: none;
+  }
+
+  .print-only {
+    display: block;
+  }
+
+  body {
+    font-size: 12pt;
+  }
+
+  table {
+    border-collapse: collapse;
+  }
+
+  table,
+  th,
+  td {
+    border: 1px solid #ddd;
+  }
+}
+
+/* Responsive table */
+.responsive-table {
+  @apply w-full;
+}
+
+@media (max-width: 640px) {
+  .responsive-table thead {
+    display: none;
+  }
+
+  .responsive-table tbody tr {
+    @apply block border rounded-lg mb-2 shadow-sm;
+  }
+
+  .responsive-table tbody td {
+    @apply block text-right pl-4 pr-4 py-2 border-b last:border-b-0;
+  }
+
+  .responsive-table tbody td::before {
+    content: attr(data-label);
+    @apply float-left font-medium text-gray-600;
+  }
+}
+
+/* Custom scrollbar */
+::-webkit-scrollbar {
+  width: 8px;
+  height: 8px;
+}
+
+::-webkit-scrollbar-track {
+  background: #f1f1f1;
+}
+
+::-webkit-scrollbar-thumb {
+  background: #4caf50;
+  border-radius: 4px;
+}
+
+::-webkit-scrollbar-thumb:hover {
+  background: #388e3c;
+}
+
+/* Custom styles */
+.prose {
+  max-width: 65ch;
+  color: #374151;
+}
+
+.prose p {
+  margin-top: 1.25em;
+  margin-bottom: 1.25em;
+}
+
+.prose strong {
+  font-weight: 600;
+  color: #111827;
+}
+
+.prose a {
+  color: #2563eb;
+  text-decoration: underline;
+  font-weight: 500;
+}
+
+.prose h1 {
+  color: #111827;
+  font-weight: 800;
+  font-size: 2.25em;
+  margin-top: 0;
+  margin-bottom: 0.8888889em;
+  line-height: 1.1111111;
+}
+
+.prose h2 {
+  color: #111827;
+  font-weight: 700;
+  font-size: 1.5em;
+  margin-top: 2em;
+  margin-bottom: 1em;
+  line-height: 1.3333333;
+}
+
+.prose h3 {
+  color: #111827;
+  font-weight: 600;
+  font-size: 1.25em;
+  margin-top: 1.6em;
+  margin-bottom: 0.6em;
+  line-height: 1.6;
+}
+
+.prose ul {
+  margin-top: 1.25em;
+  margin-bottom: 1.25em;
+  list-style-type: disc;
+  padding-left: 1.625em;
+}
+
+.prose ol {
+  margin-top: 1.25em;
+  margin-bottom: 1.25em;
+  list-style-type: decimal;
+  padding-left: 1.625em;
+}
+
+.prose li {
+  margin-top: 0.5em;
+  margin-bottom: 0.5em;
+}
+
+/* PWA specific styles */
+.offline-message {
+  background-color: #f3f4f6;
+  border-left: 4px solid #3b82f6;
+  padding: 1rem;
+  margin-bottom: 1rem;
+}
+
+/* Form styles */
+input[type="file"] {
+  padding: 0.5rem;
+  border: 1px solid #d1d5db;
+  border-radius: 0.375rem;
+}
+
+input[type="file"]::-webkit-file-upload-button {
+  background-color: #f3f4f6;
+  border: 0;
+  padding: 0.5rem 1rem;
+  margin-right: 1rem;
+  border-radius: 0.25rem;
+  color: #374151;
+  font-weight: 500;
+}
+
+input[type="file"]::-webkit-file-upload-button:hover {
+  background-color: #e5e7eb;
+}
