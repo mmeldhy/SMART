@@ -117,6 +117,8 @@ Router::get('admin/fee/edit/:id', 'Fee', 'editPage');
 Router::post('admin/fee/edit/:id', 'Fee', 'update');
 Router::get('admin/fee/delete/:id', 'Fee', 'delete');
 Router::get('admin/payments', 'Fee', 'payments');
+Router::get('admin/payment/:id', 'Fee', 'paymentDetail'); // Correct route
+Router::post('admin/payment/:id', 'Fee', 'updatePaymentStatus');
 
 // Announcements
 Router::get('admin/announcements', 'Announcement', 'index');
@@ -138,11 +140,12 @@ Router::get('admin/schedule/view/:id', 'Schedule', 'view');
 
 // Reports
 Router::get('admin/reports', 'Report', 'adminIndex');
-Router::get('admin/report/:id', 'Report', 'adminView');
+Router::get('admin/report/view/:id', 'Report', 'adminView'); // Corrected route
 Router::post('admin/report/status/:id', 'Report', 'updateStatus');
 
 //settings
 Router::get('admin/settings', 'Settings', 'index');
+Router::post('admin/settings/add', 'Settings', 'update');
 
 
 // Resident routes

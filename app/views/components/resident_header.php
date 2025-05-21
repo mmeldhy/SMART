@@ -3,7 +3,7 @@
         <div class="flex justify-between h-16">
             <div class="flex">
                 <div class="flex-shrink-0 flex items-center">
-                    <h1 class="text-lg font-bold text-green-600">RT Management System</h1>
+                    <h1 class="text-lg font-bold text-green-600">SMART</h1>
                 </div>
                 <nav class="hidden md:ml-6 md:flex md:space-x-8">
                     <a href="/dashboard" class="<?= strpos($_SERVER['REQUEST_URI'], '/dashboard') !== false ? 'border-green-500 text-gray-900' : 'border-transparent text-gray-500 hover:border-gray-300 hover:text-gray-700' ?> inline-flex items-center px-1 pt-1 border-b-2 text-sm font-medium">

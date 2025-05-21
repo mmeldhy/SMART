@@ -3,7 +3,7 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Jadwal - RT Management System</title>
+    <title>Jadwal -SMART</title>
     <link href="https://cdn.jsdelivr.net/npm/tailwindcss@2.2.19/dist/tailwind.min.css" rel="stylesheet">
     <link rel="stylesheet" href="/css/styles.css">
     <link rel="manifest" href="/manifest.json">
@@ -70,41 +70,44 @@
                             <tbody class="bg-white divide-y divide-gray-200">
                                 <?php foreach ($data['schedules'] as $schedule): ?>
                                     <?php
-                                    $scheduleDate = new DateTime($schedule['schedule_date']);
+                                    $scheduleDate = isset($schedule['schedule_datetime']) ? new DateTime($schedule['schedule_datetime']) : null;
                                     $today = new DateTime();
-                                    $isPast = $scheduleDate < $today;
+                                    $isPast = $scheduleDate && $scheduleDate < $today;
                                     ?>
                                     <tr class="<?= $isPast ? 'bg-gray-50' : '' ?>">
                                         <td class="px-6 py-4 whitespace-nowrap" data-label="Tanggal">
                                             <div class="flex items-center">
                                                 <div class="flex-shrink-0 h-10 w-10 flex items-center justify-center rounded-full <?= $isPast ? 'bg-gray-100 text-gray-500' : 'bg-green-100 text-green-800' ?>">
-                                                    <span class="text-sm font-medium"><?= date('d', strtotime($schedule['schedule_date'])) ?></span>
+                                                    <span class="text-sm font-medium"><?= $scheduleDate ? date('d', $scheduleDate->getTimestamp()) : '' ?></span>
                                                 </div>
                                                 <div class="ml-4">
-                                                    <div class="text-sm font-medium text-gray-900"><?= date('d F Y', strtotime($schedule['schedule_date'])) ?></div>
+                                                    <div class="text-sm font-medium text-gray-900"><?= $scheduleDate ? date('d F Y', $scheduleDate->getTimestamp()) : '' ?></div>
                                                     <div class="text-sm text-gray-500">
                                                         <?php
-                                                        $dayNames = [
-                                                            'Sunday' => 'Minggu',
-                                                            'Monday' => 'Senin',
-                                                            'Tuesday' => 'Selasa',
-                                                            'Wednesday' => 'Rabu',
-                                                            'Thursday' => 'Kamis',
-                                                            'Friday' => 'Jumat',
-                                                            'Saturday' => 'Sabtu'
-                                                        ];
-                                                        $dayName = date('l', strtotime($schedule['schedule_date']));
-                                                        echo $dayNames[$dayName];
-                                                        ?>
+                                                        if ($scheduleDate) {
+                                                         $dayNames = [
+                                                             'Sunday' => 'Minggu',
+                                                             'Monday' => 'Senin',
+                                                             'Tuesday' => 'Selasa',
+                                                             'Wednesday' => 'Rabu',
+                                                             'Thursday' => 'Kamis',
+                                                             'Friday' => 'Jumat',
+                                                             'Saturday' => 'Sabtu'
+                                                         ];
+                                                        $dayName = date('l', $scheduleDate->getTimestamp());
+                                                         echo $dayNames[$dayName];
+                                                         }
+                                                          ?>
+
                                                     </div>
                                                 </div>
                                             </div>
                                         </td>
                                         <td class="px-6 py-4 whitespace-nowrap" data-label="Waktu">
-                                            <div class="text-sm text-gray-900"><?= date('H:i', strtotime($schedule['schedule_time'])) ?> WIB</div>
+                                            <div class="text-sm text-gray-900"><?= isset($schedule['schedule_datetime']) ? date('H:i', strtotime($schedule['schedule_datetime'])) : '' ?> WIB</div>
                                         </td>
                                         <td class="px-6 py-4" data-label="Kegiatan">
-                                            <div class="text-sm font-medium text-gray-900"><?= htmlspecialchars($schedule['title']) ?></div>
+                                            <div class="text-sm font-medium text-gray-900"><?= isset($schedule['title']) ? htmlspecialchars($schedule['title']) : '' ?></div>
                                         </td>
                                         <td class="px-6 py-4" data-label="Deskripsi">
                                             <div class="text-sm text-gray-900"><?= htmlspecialchars($schedule['description']) ?></div>

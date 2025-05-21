@@ -3,7 +3,7 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Register - RT Management System</title>
+    <title>Register - SMART</title>
     <link href="https://cdn.jsdelivr.net/npm/tailwindcss@2.2.19/dist/tailwind.min.css" rel="stylesheet">
     <link rel="stylesheet" href="/css/styles.css">
     <link rel="manifest" href="/manifest.json">
@@ -14,7 +14,7 @@
         <div class="bg-white rounded-lg shadow-md p-8 max-w-md w-full">
             <div class="text-center mb-8">
                 <h1 class="text-2xl font-bold text-gray-800">Registrasi Warga</h1>
-                <p class="text-gray-600">Daftar untuk mengakses Sistem Informasi RT</p>
+                <p class="text-gray-600">Daftar untuk mengakses SMART</p>
             </div>
             
             <?php if (isset($_SESSION['error'])): ?>

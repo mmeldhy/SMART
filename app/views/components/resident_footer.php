@@ -2,7 +2,7 @@
     <div class="max-w-7xl mx-auto py-6 px-4 sm:px-6 lg:px-8">
         <div class="flex flex-col md:flex-row justify-between items-center">
             <div class="mb-4 md:mb-0">
-                <h2 class="text-lg font-bold text-green-600">RT Management System</h2>
+                <h2 class="text-lg font-bold text-green-600">SMART</h2>
                 <p class="text-sm text-gray-500">Sistem Informasi Manajemen Lingkungan RT</p>
             </div>
             <div class="flex space-x-4">

@@ -37,7 +37,7 @@ class Schedule {
             $params['search'] = "%$search%";
         }
         
-        $sql .= " ORDER BY schedule_date ASC LIMIT :limit OFFSET :offset";
+        $sql .= " ORDER BY schedule_datetime ASC LIMIT :limit OFFSET :offset";
         
         $stmt = $this->db->prepare($sql);
         
@@ -86,47 +86,44 @@ class Schedule {
      * @return bool Success status
      */
     public function create($data) {
-        $stmt = $this->db->prepare("
-            INSERT INTO schedules (title, description, schedule_date, schedule_time, created_at)
-            VALUES (:title, :description, :schedule_date, :schedule_time, NOW())
+		$stmt = $this->db->prepare("
+            INSERT INTO schedules (title, description, schedule_datetime, location, type, status, created_at)
+            VALUES (:title, :description, :schedule_datetime, :location, :type, :status, NOW())
         ");
-        
-        return $stmt->execute([
-            'title' => $data['title'],
-            'description' => $data['description'],
-            'schedule_date' => $data['schedule_date'],
-            'schedule_time' => $data['schedule_time']
-        ]);
-    }
-    
-    /**
-     * Update schedule
-     * 
-     * @param int $id Schedule ID
-     * @param array $data Schedule data
-     * @return bool Success status
-     */
-    public function update($id, $data) {
-        $stmt = $this->db->prepare("
-            UPDATE schedules SET 
-                title = :title,
-                description = :description,
-                schedule_date = :schedule_date,
-                schedule_time = :schedule_time,
-                updated_at = NOW()
-            WHERE id = :id
-        ");
-        
-        return $stmt->execute([
-            'id' => $id,
-            'title' => $data['title'],
-            'description' => $data['description'],
-            'schedule_date' => $data['schedule_date'],
-            'schedule_time' => $data['schedule_time']
-        ]);
-    }
-    
-    /**
+         
+         return $stmt->execute([
+             'title' => $data['title'],
+             'description' => $data['description'],
+			 'schedule_datetime' => $data['schedule_datetime'],
+             'location' => $data['location'],
+             'type' => $data['type'],
+             'status' => $data['status']        ]);
+     }
+     
+     /**
+      * Update schedule
+      * 
+      * @param int $id Schedule ID
+      * @param array $data Schedule data
+      * @return bool Success status
+      */
+     public function update($id, $data) {
+		$stmt = $this->db->prepare("
+             UPDATE schedules SET 
+                 title = :title,
+                 description = :description,
+				schedule_datetime = :schedule_datetime,
+                location = :location,
+                type = :type,
+                status = :status,
+                 updated_at = NOW()
+             WHERE id = :id
+         ");
+ 
+		return $stmt->execute(['id' => $id, 'title' => $data['title'], 'description' => $data['description'], 'schedule_datetime' => $data['schedule_datetime'], 'location' => $data['location'], 'type' => $data['type'], 'status' => $data['status']]);
+      }
+     
+     /**
      * Delete schedule
      * 
      * @param int $id Schedule ID
@@ -145,9 +142,10 @@ class Schedule {
      */
     public function getUpcoming($limit = 5) {
         $stmt = $this->db->prepare("
-            SELECT * FROM schedules
-            WHERE schedule_date >= CURDATE()
-            ORDER BY schedule_date ASC, schedule_time ASC
+            SELECT * 
+            FROM schedules 
+            WHERE schedule_datetime >= NOW()
+            ORDER BY schedule_datetime ASC
             LIMIT :limit
         ");
         

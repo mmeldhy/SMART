@@ -29,7 +29,7 @@ A Progressive Web App (PWA) for neighborhood (RT) management system built with P
 
 - Admin:
   - Username: admin
-  - Password: admin123
+  - Password: password
 
 - Resident:
   - Username: warga1

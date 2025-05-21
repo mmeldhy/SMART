@@ -3,7 +3,7 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Dashboard Warga - RT Management System</title>
+    <title>Dashboard Warga - SMART</title>
     <link href="https://cdn.jsdelivr.net/npm/tailwindcss@2.2.19/dist/tailwind.min.css" rel="stylesheet">
     <link rel="stylesheet" href="/css/styles.css">
     <link rel="manifest" href="/manifest.json">
@@ -138,15 +138,17 @@
                                 <?php foreach ($data['upcomingSchedules'] as $schedule): ?>
                                     <div class="flex items-start border-b pb-4 last:border-b-0 last:pb-0">
                                         <div class="flex-shrink-0 bg-green-100 rounded-lg p-2 text-center mr-4">
-                                            <span class="block text-sm font-bold text-green-800"><?= date('d', strtotime($schedule['schedule_date'])) ?></span>
-                                            <span class="block text-xs text-green-600"><?= date('M', strtotime($schedule['schedule_date'])) ?></span>
-                                        </div>
-                                        <div>
-                                            <h3 class="font-medium text-gray-800"><?= htmlspecialchars($schedule['title']) ?></h3>
-                                            <p class="text-sm text-gray-500"><?= date('H:i', strtotime($schedule['schedule_time'])) ?> WIB</p>
-                                            <p class="text-gray-600 text-sm mt-1"><?= htmlspecialchars($schedule['description']) ?></p>
-                                        </div>
-                                    </div>
+                                           <?php if(isset($schedule['schedule_datetime'])): ?>
+                                             <span class="block text-sm font-bold text-green-800"><?= date('d', strtotime($schedule['schedule_datetime'])) ?></span>
+                                             <span class="block text-xs text-green-600"><?= date('M', strtotime($schedule['schedule_datetime'])) ?></span>
+                                           <?php endif; ?>
+                                         </div>
+                                         <div>
+                                             <h3 class="font-medium text-gray-800"><?= htmlspecialchars($schedule['title']) ?></h3>
+                                            <p class="text-sm text-gray-500"><?= isset($schedule['schedule_datetime']) ? date('H:i', strtotime($schedule['schedule_datetime'])) : '' ?> WIB</p>
+                                             <p class="text-gray-600 text-sm mt-1"><?= htmlspecialchars($schedule['description']) ?></p>
+                                         </div>
+                                     </div>
                                 <?php endforeach; ?>
                             </div>
                             <div class="mt-4 text-center">

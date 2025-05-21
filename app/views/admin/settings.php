@@ -23,7 +23,7 @@
                 <div class="p-6">
                     <h2 class="text-lg font-medium text-gray-800 mb-4">General Settings</h2>
                     
-                    <form action="/admin/settings/update" method="POST" class="space-y-6">
+                    <form action="/admin/settings/add" method="POST" class="space-y-6">
                         <div class="grid grid-cols-1 md:grid-cols-2 gap-6">
                             <div>
                                 <label for="rt_name" class="block text-sm font-medium text-gray-700 mb-1">RT Name</label>

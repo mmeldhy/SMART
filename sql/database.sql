@@ -70,7 +70,7 @@ CREATE TABLE IF NOT EXISTS reports (
     description TEXT NOT NULL,
     category VARCHAR(50) NOT NULL,
     image VARCHAR(255),
-    status ENUM('pending', 'process', 'completed') NOT NULL DEFAULT 'pending',
+    status ENUM('pending', 'in_progress', 'resolved', 'rejected') NOT NULL DEFAULT 'pending',
     admin_response TEXT,
     created_at DATETIME DEFAULT CURRENT_TIMESTAMP,
     updated_at DATETIME ON UPDATE CURRENT_TIMESTAMP,

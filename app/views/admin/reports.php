@@ -111,7 +111,7 @@
                                             </span>
                                         </td>
                                         <td class="px-6 py-4 whitespace-nowrap text-sm font-medium">
-                                            <a href="/admin/report/<?php echo $report['id']; ?>" class="text-green-600 hover:text-green-900 mr-3">View</a>
+                                            <a href="/admin/report/view/<?php echo $report['id']; ?>" class="text-green-600 hover:text-green-900 mr-3">View</a>
                                         </td>
                                     </tr>
                                 <?php endforeach; ?>

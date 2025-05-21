@@ -1,9 +1,12 @@
+<?php
+
+?>
 <!DOCTYPE html>
 <html lang="id">
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Daftar Iuran - RT Management System</title>
+    <title>Daftar Iuran - SMART</title>
     <link href="https://cdn.jsdelivr.net/npm/tailwindcss@2.2.19/dist/tailwind.min.css" rel="stylesheet">
     <link rel="stylesheet" href="/css/styles.css">
     <link rel="manifest" href="/manifest.json">
@@ -13,7 +16,7 @@
     <!-- Admin Header -->
     <?php include BASE_PATH . '/app/views/components/admin_header.php'; ?>
     
-    <div class="flex flex-1">
+    <div class="flex h-screen">
         <!-- Admin Sidebar -->
         <?php include BASE_PATH . '/app/views/components/admin_sidebar.php'; ?>
         

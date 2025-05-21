@@ -39,8 +39,8 @@
                             <select id="fee_id" name="fee_id" class="mt-1 block w-full pl-3 pr-10 py-2 text-base border-gray-300 focus:outline-none focus:ring-green-500 focus:border-green-500 sm:text-sm rounded-md">
                                 <option value="">All Fee Types</option>
                                 <?php foreach ($fees as $fee): ?>
-                                    <option value="<?php echo $fee->id; ?>" <?php echo isset($_GET['fee_id']) && $_GET['fee_id'] == $fee->id ? 'selected' : ''; ?>>
-                                        <?php echo htmlspecialchars($fee->name); ?>
+                                    <option value="<?php echo $fee['id']; ?>" <?php echo isset($_GET['fee_id']) && $_GET['fee_id'] == $fee['id'] ? 'selected' : ''; ?>>
+                                        <?php echo htmlspecialchars($fee['name']); ?>
                                     </option>
                                 <?php endforeach; ?>
                             </select>
@@ -91,20 +91,20 @@
                                 <?php foreach ($payments as $payment): ?>
                                     <tr>
                                         <td class="px-6 py-4 whitespace-nowrap">
-                                            <div class="text-sm text-gray-900">#<?php echo $payment->id; ?></div>
+                                            <div class="text-sm text-gray-900">#<?php echo isset($payment['id']) ? $payment['id'] : ''; ?></div>
                                         </td>
                                         <td class="px-6 py-4 whitespace-nowrap">
-                                            <div class="text-sm font-medium text-gray-900"><?php echo htmlspecialchars($payment->resident_name); ?></div>
-                                            <div class="text-sm text-gray-500"><?php echo htmlspecialchars($payment->resident_email); ?></div>
+                                            <div class="text-sm font-medium text-gray-900"><?php echo isset($payment['resident_name']) ? htmlspecialchars($payment['resident_name']) : ''; ?></div>
+                                            <div class="text-sm text-gray-500"><?php echo isset($payment['resident_email']) ? htmlspecialchars($payment['resident_email']) : ''; ?></div>
                                         </td>
                                         <td class="px-6 py-4 whitespace-nowrap">
-                                            <div class="text-sm text-gray-900"><?php echo htmlspecialchars($payment->fee_name); ?></div>
+                                            <div class="text-sm text-gray-900"><?php echo isset($payment['fee_name']) ? htmlspecialchars($payment['fee_name']) : ''; ?></div>
                                         </td>
                                         <td class="px-6 py-4 whitespace-nowrap">
-                                            <div class="text-sm text-gray-900">Rp <?php echo number_format($payment->amount, 0, ',', '.'); ?></div>
+                                            <div class="text-sm text-gray-900">Rp <?php echo isset($payment['amount']) ? number_format($payment['amount'], 0, ',', '.') : '0'; ?></div>
                                         </td>
                                         <td class="px-6 py-4 whitespace-nowrap">
-                                            <div class="text-sm text-gray-500"><?php echo date('d M Y', strtotime($payment->payment_date)); ?></div>
+                                            <div class="text-sm text-gray-500"><?php echo isset($payment['payment_date']) ? date('d M Y', strtotime($payment['payment_date'])) : ''; ?></div>
                                         </td>
                                         <td class="px-6 py-4 whitespace-nowrap">
                                             <?php 
@@ -118,15 +118,16 @@
                                                     'verified' => 'Verified',
                                                     'rejected' => 'Rejected'
                                                 ];
-                                                $statusClass = $statusClasses[$payment->status] ?? 'bg-gray-100 text-gray-800';
-                                                $statusLabel = $statusLabels[$payment->status] ?? ucfirst($payment->status);
+                                                $status = isset($payment['status']) ? $payment['status'] : '';
+                                                $statusClass = $statusClasses[$status] ?? 'bg-gray-100 text-gray-800';
+                                                $statusLabel = $statusLabels[$status] ?? ucfirst($status);
                                             ?>
                                             <span class="px-2 inline-flex text-xs leading-5 font-semibold rounded-full <?php echo $statusClass; ?>">
                                                 <?php echo $statusLabel; ?>
                                             </span>
                                         </td>
                                         <td class="px-6 py-4 whitespace-nowrap text-sm font-medium">
-                                            <a href="/admin/payments/view/<?php echo $payment->id; ?>" class="text-green-600 hover:text-green-900 mr-3">View</a>
+                                            <a href="/admin/payment/<?php echo isset($payment['id']) ? $payment['id'] : ''; ?>" class="text-green-600 hover:text-green-900 mr-3">View</a>
                                         </td>
                                     </tr>
                                 <?php endforeach; ?>

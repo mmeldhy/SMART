@@ -64,7 +64,7 @@ class ScheduleController {
      */
     public function add() {
         // Validate input
-        $requiredFields = ['title', 'description', 'schedule_date', 'schedule_time'];
+        $requiredFields = ['title', 'description', 'date', 'start_time', 'end_time', 'location', 'type', 'status'];
         foreach ($requiredFields as $field) {
             if (!isset($_POST[$field]) || empty($_POST[$field])) {
                 $_SESSION['error'] = 'Semua field harus diisi';
@@ -76,25 +76,32 @@ class ScheduleController {
         // Sanitize input
         $title = $this->sanitizeInput($_POST['title']);
         $description = $this->sanitizeInput($_POST['description']);
-        $scheduleDate = $_POST['schedule_date'];
-        $scheduleTime = $_POST['schedule_time'];
-        
-        // Create schedule
-        $scheduleModel = new Schedule();
-        $result = $scheduleModel->create([
-            'title' => $title,
-            'description' => $description,
-            'schedule_date' => $scheduleDate,
-            'schedule_time' => $scheduleTime
-        ]);
-        
-        if ($result) {
-            $_SESSION['success'] = 'Jadwal berhasil ditambahkan';
-            header('Location: /admin/schedules');
-        } else {
-            $_SESSION['error'] = 'Gagal menambahkan jadwal';
-            header('Location: /admin/schedule/add');
-        }
+		$date = $_POST['date'];
+        $startTime = $_POST['start_time'];
+        $endTime = $_POST['end_time'];
+        $location = $this->sanitizeInput($_POST['location']);
+        $type = $_POST['type'];
+        $status = $_POST['status'];
+
+        $scheduleDatetime = $date . ' ' . $startTime;
+         
+         // Create schedule
+         $scheduleModel = new Schedule();
+         $result = $scheduleModel->create([
+             'title' => $title,
+             'description' => $description,
+			 'schedule_datetime' => $scheduleDatetime,
+             'location' => $location,
+             'type' => $type,
+             'status' => $status        ]);
+         
+         if ($result) {
+             $_SESSION['success'] = 'Jadwal berhasil ditambahkan';
+             header('Location: /admin/schedules');
+         } else {
+             $_SESSION['error'] = 'Gagal menambahkan jadwal';
+             header('Location: /admin/schedule/add');
+         }
     }
     
     /**
@@ -119,7 +126,7 @@ class ScheduleController {
      */
     public function update($id) {
         // Validate input
-        $requiredFields = ['title', 'description', 'schedule_date', 'schedule_time'];
+        $requiredFields = ['title', 'description', 'date', 'start_time', 'end_time', 'location', 'type', 'status'];
         foreach ($requiredFields as $field) {
             if (!isset($_POST[$field]) || empty($_POST[$field])) {
                 $_SESSION['error'] = 'Semua field harus diisi';
@@ -131,11 +138,17 @@ class ScheduleController {
         // Sanitize input
         $title = $this->sanitizeInput($_POST['title']);
         $description = $this->sanitizeInput($_POST['description']);
-        $scheduleDate = $_POST['schedule_date'];
-        $scheduleTime = $_POST['schedule_time'];
-        
-        $scheduleModel = new Schedule();
-        $schedule = $scheduleModel->findById($id);
+		$date = $_POST['date'];
+        $startTime = $_POST['start_time'];
+        $endTime = $_POST['end_time'];
+        $location = $this->sanitizeInput($_POST['location']);
+        $type = $_POST['type'];
+        $status = $_POST['status'];
+
+        $scheduleDatetime = $date . ' ' . $startTime;
+         
+         $scheduleModel = new Schedule();
+         $schedule = $scheduleModel->findById($id);
         
         if (!$schedule) {
             $_SESSION['error'] = 'Jadwal tidak ditemukan';
@@ -145,13 +158,15 @@ class ScheduleController {
         
         // Update schedule
         $result = $scheduleModel->update($id, [
-            'title' => $title,
-            'description' => $description,
-            'schedule_date' => $scheduleDate,
-            'schedule_time' => $scheduleTime
-        ]);
-        
-        if ($result) {
+             'title' => $title,
+             'description' => $description,
+			 'schedule_datetime' => $scheduleDatetime,
+             'location' => $location,
+             'type' => $type,
+             'status' => $status
+         ]);
+         
+         if ($result) {
             $_SESSION['success'] = 'Jadwal berhasil diperbarui';
             header('Location: /admin/schedules');
         } else {

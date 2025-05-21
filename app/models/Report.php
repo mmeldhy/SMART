@@ -160,6 +160,7 @@ class Report {
             WHERE id = :id
         ");
         
+
         return $stmt->execute([
             'id' => $id,
             'status' => $status,

@@ -86,7 +86,7 @@ class ReportController {
         $response = isset($_POST['response']) ? $this->sanitizeInput($_POST['response']) : '';
         
         // Validate status
-        $validStatuses = ['pending', 'process', 'completed'];
+        $validStatuses = ['pending', 'in_progress', 'resolved', 'rejected'];
         if (!in_array($status, $validStatuses)) {
             $_SESSION['error'] = 'Status tidak valid';
             header("Location: /admin/report/$id");
@@ -107,7 +107,7 @@ class ReportController {
         
         if ($result) {
             $_SESSION['success'] = 'Status laporan berhasil diperbarui';
-            header('Location: /admin/reports');
+            header("Location: /admin/report/view/$id");
         } else {
             $_SESSION['error'] = 'Gagal memperbarui status laporan';
             header("Location: /admin/report/$id");
