@@ -1,4 +1,4 @@
-# RT Environmental Management Information System
+# RT Environmental Management Information System - SMART
 
 A Progressive Web App (PWA) for neighborhood (RT) management system built with PHP 8.x (OOP + MVC), MySQL, and Tailwind CSS.
 
