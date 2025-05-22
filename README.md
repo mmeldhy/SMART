@@ -1,4 +1,4 @@
-# RT Environmental Management Information System
+# RT Environmental Management Information System - SMART
 
 A Progressive Web App (PWA) for neighborhood (RT) management system built with PHP 8.x (OOP + MVC), MySQL, and Tailwind CSS.
 
@@ -23,7 +23,7 @@ A Progressive Web App (PWA) for neighborhood (RT) management system built with P
 1. Clone or download this repository to your Laragon's www directory
 2. Import the database structure from `sql/database.sql`
 3. Configure database connection in `config/database.php`
-4. Access the application via `http://rt-management.test` (if using Laragon's auto-hostname)
+4. Access the application via `http://SMART.test` (if using Laragon's auto-hostname)
 
 ## Default Accounts
 
@@ -38,7 +38,7 @@ A Progressive Web App (PWA) for neighborhood (RT) management system built with P
 ## Project Structure
 
 \`\`\`
-/rt-management/
+/SMART/
 ├── app/
 │   ├── controllers/    # Controller classes
 │   ├── models/         # Model classes
