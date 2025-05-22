@@ -115,24 +115,25 @@ class User {
     public function getResidents($limit = 10, $offset = 0, $search = '') {
         $sql = "SELECT * FROM users WHERE role = 'warga'";
         $params = [];
-        
+
         if (!empty($search)) {
-            $sql .= " AND (name LIKE :search OR username LIKE :search OR address LIKE :search)";
-            $params['search'] = "%$search%";
+            $sql .= " AND (name LIKE :search1 OR username LIKE :search2 OR address LIKE :search3)";
+            $params['search1'] = "%$search%";
+            $params['search2'] = "%$search%";
+            $params['search3'] = "%$search%";
         }
-        
+
         $sql .= " ORDER BY name ASC LIMIT :limit OFFSET :offset";
-        
+
         $stmt = $this->db->prepare($sql);
-        
+
         // Bind parameters
         foreach ($params as $key => $value) {
-            $stmt->bindValue($key, $value);
+            $stmt->bindValue(':' . $key, $value);
         }
-        
         $stmt->bindValue(':limit', $limit, \PDO::PARAM_INT);
         $stmt->bindValue(':offset', $offset, \PDO::PARAM_INT);
-        
+
         $stmt->execute();
         return $stmt->fetchAll();
     }
@@ -146,19 +147,21 @@ class User {
     public function countResidents($search = '') {
         $sql = "SELECT COUNT(*) FROM users WHERE role = 'warga'";
         $params = [];
-        
+
         if (!empty($search)) {
-            $sql .= " AND (name LIKE :search OR username LIKE :search OR address LIKE :search)";
-            $params['search'] = "%$search%";
+            $sql .= " AND (name LIKE :search1 OR username LIKE :search2 OR address LIKE :search3)";
+            $params['search1'] = "%$search%";
+            $params['search2'] = "%$search%";
+            $params['search3'] = "%$search%";
         }
-        
+
         $stmt = $this->db->prepare($sql);
-        
+
         // Bind parameters
         foreach ($params as $key => $value) {
-            $stmt->bindValue($key, $value);
+            $stmt->bindValue(':' . $key, $value);
         }
-        
+
         $stmt->execute();
         return (int) $stmt->fetchColumn();
     }

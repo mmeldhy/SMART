@@ -29,26 +29,25 @@ class AnnouncementController {
      */
     public function index() {
         $announcementModel = new Announcement();
-        
+
         // Pagination
         $page = isset($_GET['page']) ? (int)$_GET['page'] : 1;
         $limit = 10;
         $offset = ($page - 1) * $limit;
-        
-        // Search
-        $search = isset($_GET['search']) ? $_GET['search'] : '';
-        
-        $announcements = $announcementModel->getAll($limit, $offset, $search);
-        $totalAnnouncements = $announcementModel->countAll($search);
+
+        // Filters
+        $type = $_GET['type'] ?? '';
+        $date_from = $_GET['date_from'] ?? '';
+        $date_to = $_GET['date_to'] ?? '';
+        $search = $_GET['search'] ?? '';
+
+        $announcements = $announcementModel->getAll($limit, $offset, $type, $date_from, $date_to, $search);
+        $totalAnnouncements = $announcementModel->countAll($type, $date_from, $date_to, $search);
         $totalPages = ceil($totalAnnouncements / $limit);
-        
-        $data = [
-            'announcements' => $announcements,
-            'currentPage' => $page,
-            'totalPages' => $totalPages,
-            'search' => $search
-        ];
-        
+
+        $startRecord = ($page - 1) * $limit + 1;
+        $endRecord = min($page * $limit, $totalAnnouncements);
+
         require_once BASE_PATH . '/app/views/admin/announcements.php';
     }
     
@@ -81,7 +80,8 @@ class AnnouncementController {
         $announcementModel = new Announcement();
         $result = $announcementModel->create([
             'title' => $title,
-            'content' => $content
+            'content' => $content,
+            'type' => $_POST['type'] ?? 'general'
         ]);
         
         if ($result) {
@@ -140,7 +140,8 @@ class AnnouncementController {
         // Update announcement
         $result = $announcementModel->update($id, [
             'title' => $title,
-            'content' => $content
+            'content' => $content,
+            'type' => $_POST['type'] ?? 'general'
         ]);
         
         if ($result) {

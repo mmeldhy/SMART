@@ -28,27 +28,38 @@ class Announcement {
      * @param string $search Search term
      * @return array Announcements
      */
-    public function getAll($limit = 10, $offset = 0, $search = '') {
-        $sql = "SELECT * FROM announcements";
+    public function getAll($limit = 10, $offset = 0, $type = '', $date_from = '', $date_to = '', $search = '') {
+        $sql = "SELECT * FROM announcements WHERE 1=1";
         $params = [];
-        
+
+        if (!empty($type)) {
+            $sql .= " AND type = :type";
+            $params['type'] = $type;
+        }
+        if (!empty($date_from)) {
+            $sql .= " AND (start_date IS NULL OR start_date >= :date_from)";
+            $params['date_from'] = $date_from;
+        }
+        if (!empty($date_to)) {
+            $sql .= " AND (end_date IS NULL OR end_date <= :date_to)";
+            $params['date_to'] = $date_to;
+        }
         if (!empty($search)) {
-            $sql .= " WHERE title LIKE :search OR content LIKE :search";
-            $params['search'] = "%$search%";
+            $sql .= " AND (title LIKE :search1 OR content LIKE :search2)";
+            $params['search1'] = "%$search%";
+            $params['search2'] = "%$search%";
         }
-        
+
         $sql .= " ORDER BY created_at DESC LIMIT :limit OFFSET :offset";
-        
+
         $stmt = $this->db->prepare($sql);
-        
-        // Bind parameters
+
         foreach ($params as $key => $value) {
-            $stmt->bindValue($key, $value);
+            $stmt->bindValue(':' . $key, $value);
         }
-        
         $stmt->bindValue(':limit', $limit, \PDO::PARAM_INT);
         $stmt->bindValue(':offset', $offset, \PDO::PARAM_INT);
-        
+
         $stmt->execute();
         return $stmt->fetchAll();
     }
@@ -59,22 +70,34 @@ class Announcement {
      * @param string $search Search term
      * @return int Total count
      */
-    public function countAll($search = '') {
-        $sql = "SELECT COUNT(*) FROM announcements";
+    public function countAll($type = '', $date_from = '', $date_to = '', $search = '') {
+        $sql = "SELECT COUNT(*) FROM announcements WHERE 1=1";
         $params = [];
-        
+
+        if (!empty($type)) {
+            $sql .= " AND type = :type";
+            $params['type'] = $type;
+        }
+        if (!empty($date_from)) {
+            $sql .= " AND (start_date IS NULL OR start_date >= :date_from)";
+            $params['date_from'] = $date_from;
+        }
+        if (!empty($date_to)) {
+            $sql .= " AND (end_date IS NULL OR end_date <= :date_to)";
+            $params['date_to'] = $date_to;
+        }
         if (!empty($search)) {
-            $sql .= " WHERE title LIKE :search OR content LIKE :search";
-            $params['search'] = "%$search%";
+            $sql .= " AND (title LIKE :search1 OR content LIKE :search2)";
+            $params['search1'] = "%$search%";
+            $params['search2'] = "%$search%";
         }
-        
+
         $stmt = $this->db->prepare($sql);
-        
-        // Bind parameters
+
         foreach ($params as $key => $value) {
-            $stmt->bindValue($key, $value);
+            $stmt->bindValue(':' . $key, $value);
         }
-        
+
         $stmt->execute();
         return (int) $stmt->fetchColumn();
     }
@@ -87,13 +110,14 @@ class Announcement {
      */
     public function create($data) {
         $stmt = $this->db->prepare("
-            INSERT INTO announcements (title, content, created_at)
-            VALUES (:title, :content, NOW())
+            INSERT INTO announcements (title, content, type, created_at)
+            VALUES (:title, :content, :type, NOW())
         ");
         
         return $stmt->execute([
             'title' => $data['title'],
-            'content' => $data['content']
+            'content' => $data['content'],
+            'type' => $data['type']
         ]);
     }
     
@@ -109,6 +133,7 @@ class Announcement {
             UPDATE announcements SET 
                 title = :title,
                 content = :content,
+                type = :type,
                 updated_at = NOW()
             WHERE id = :id
         ");
@@ -116,7 +141,8 @@ class Announcement {
         return $stmt->execute([
             'id' => $id,
             'title' => $data['title'],
-            'content' => $data['content']
+            'content' => $data['content'],
+            'type' => $data['type']
         ]);
     }
     

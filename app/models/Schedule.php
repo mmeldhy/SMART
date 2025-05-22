@@ -29,26 +29,25 @@ class Schedule {
      * @return array Schedules
      */
     public function getAll($limit = 10, $offset = 0, $search = '') {
-        $sql = "SELECT * FROM schedules";
+        $sql = "SELECT * FROM schedules WHERE 1=1";
         $params = [];
-        
+
         if (!empty($search)) {
-            $sql .= " WHERE title LIKE :search OR description LIKE :search";
-            $params['search'] = "%$search%";
+            $sql .= " AND (title LIKE :search1 OR description LIKE :search2)";
+            $params['search1'] = "%$search%";
+            $params['search2'] = "%$search%";
         }
-        
+
         $sql .= " ORDER BY schedule_datetime ASC LIMIT :limit OFFSET :offset";
-        
+
         $stmt = $this->db->prepare($sql);
-        
-        // Bind parameters
+
         foreach ($params as $key => $value) {
-            $stmt->bindValue($key, $value);
+            $stmt->bindValue(':' . $key, $value);
         }
-        
         $stmt->bindValue(':limit', $limit, \PDO::PARAM_INT);
         $stmt->bindValue(':offset', $offset, \PDO::PARAM_INT);
-        
+
         $stmt->execute();
         return $stmt->fetchAll();
     }
@@ -60,21 +59,21 @@ class Schedule {
      * @return int Total count
      */
     public function countAll($search = '') {
-        $sql = "SELECT COUNT(*) FROM schedules";
+        $sql = "SELECT COUNT(*) FROM schedules WHERE 1=1";
         $params = [];
-        
+
         if (!empty($search)) {
-            $sql .= " WHERE title LIKE :search OR description LIKE :search";
-            $params['search'] = "%$search%";
+            $sql .= " AND (title LIKE :search1 OR description LIKE :search2)";
+            $params['search1'] = "%$search%";
+            $params['search2'] = "%$search%";
         }
-        
+
         $stmt = $this->db->prepare($sql);
-        
-        // Bind parameters
+
         foreach ($params as $key => $value) {
-            $stmt->bindValue($key, $value);
+            $stmt->bindValue(':' . $key, $value);
         }
-        
+
         $stmt->execute();
         return (int) $stmt->fetchColumn();
     }

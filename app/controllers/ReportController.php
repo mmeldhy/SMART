@@ -215,7 +215,7 @@ class ReportController {
         }
         
         $data = ['report' => $report];
-        require_once BASE_PATH . '/app/views/resident/view_report.php';
+        require_once BASE_PATH . '/app/views/resident/view_reports.php';
     }
     
     /**

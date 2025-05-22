@@ -233,13 +233,14 @@ class FeeController {
         $offset = ($page - 1) * $limit;
     
         // Filters
+        $search = $_GET['search'] ?? '';
         $status = $_GET['status'] ?? '';
         $fee_id = $_GET['fee_id'] ?? '';
         $date_from = $_GET['date_from'] ?? '';
         $date_to = $_GET['date_to'] ?? '';
     
-        $payments = $paymentModel->getAll($limit, $offset, $status, $fee_id, $date_from, $date_to);
-        $totalPayments = $paymentModel->countAll($status, $fee_id, $date_from, $date_to);
+        $payments = $paymentModel->getAll($limit, $offset, $search, $status, $fee_id, $date_from, $date_to);
+        $totalPayments = $paymentModel->countAll($search, $status, $fee_id, $date_from, $date_to);
         $totalPages = ceil($totalPayments / $limit);
     
         // Fetch fees for the filter dropdown

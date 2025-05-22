@@ -37,7 +37,7 @@ class Report {
     public function getAll($limit = 10, $offset = 0, $search = '', $status = '') {
         $sql = "
             SELECT r.*, u.name as user_name
-            FROM reports r
+            FROM reports r 
             JOIN users u ON r.user_id = u.id
             WHERE 1=1
         ";

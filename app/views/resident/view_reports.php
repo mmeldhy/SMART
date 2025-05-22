@@ -109,7 +109,7 @@
                                 </div>
                             </div>
                             
-                            <?php if ($data['report']['status'] === 'process' || $data['report']['status'] === 'completed'): ?>
+                            <?php if ($data['report']['status'] === 'process'): ?>
                                 <div class="ml-12 relative pb-8">
                                     <div class="absolute -left-7 mt-1.5">
                                         <span class="h-5 w-5 rounded-full bg-blue-500 flex items-center justify-center ring-4 ring-white">
@@ -123,24 +123,24 @@
                                         <p class="text-sm text-gray-500">Laporan Anda sedang ditindaklanjuti</p>
                                     </div>
                                 </div>
-                            <?php else: ?>
-                                <div class="ml-12 relative pb-8">
-                                    <div class="absolute -left-7 mt-1.5">
-                                        <span class="h-5 w-5 rounded-full bg-gray-300 flex items-center justify-center ring-4 ring-white">
-                                            <svg class="h-3 w-3 text-white" xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke="currentColor">
-                                                <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M12 8v4l3 3m6-3a9 9 0 11-18 0 9 9 0 0118 0z" />
-                                            </svg>
-                                        </span>
-                                    </div>
-                                    <div>
-                                        <p class="font-medium text-gray-400">Sedang Diproses</p>
-                                        <p class="text-sm text-gray-400">Menunggu tindak lanjut</p>
-                                    </div>
-                                </div>
                             <?php endif; ?>
-                            
-                            <?php if ($data['report']['status'] === 'completed'): ?>
-                                <div class="ml-12 relative">
+                                
+                            <div class="ml-12 relative pb-8">
+                                <div class="absolute -left-7 mt-1.5">
+                                    <span class="h-5 w-5 rounded-full bg-gray-300 flex items-center justify-center ring-4 ring-white">
+                                        <svg class="h-3 w-3 text-white" xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+                                            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M12 8v4l3 3m6-3a9 9 0 11-18 0 9 9 0 0118 0z" />
+                                        </svg>
+                                    </span>
+                                </div>
+                                <div>
+                                    <p class="font-medium text-gray-400">Sedang Diproses</p>
+                                    <p class="text-sm text-gray-400">Menunggu tindak lanjut</p>
+                                </div>
+                            </div>
+                             
+                             <?php if ($data['report']['status'] === 'completed'): ?>
+                                 <div class="ml-12 relative">
                                     <div class="absolute -left-7 mt-1.5">
                                         <span class="h-5 w-5 rounded-full bg-green-500 flex items-center justify-center ring-4 ring-white">
                                             <svg class="h-3 w-3 text-white" xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke="currentColor">

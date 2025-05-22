@@ -31,24 +31,25 @@ class Fee {
     public function getAll($limit = 10, $offset = 0, $search = '') {
         $sql = "SELECT * FROM fees";
         $params = [];
-        
+
         if (!empty($search)) {
-            $sql .= " WHERE name LIKE :search OR description LIKE :search";
-            $params['search'] = "%$search%";
+            $sql .= " WHERE name LIKE :search1 OR description LIKE :search2";
+            $params['search1'] = "%$search%";
+            $params['search2'] = "%$search%";
         }
-        
+
         $sql .= " ORDER BY due_date DESC LIMIT :limit OFFSET :offset";
-        
+
         $stmt = $this->db->prepare($sql);
-        
+
         // Bind parameters
         foreach ($params as $key => $value) {
-            $stmt->bindValue($key, $value);
+            $stmt->bindValue(':' . $key, $value);
         }
-        
+
         $stmt->bindValue(':limit', $limit, \PDO::PARAM_INT);
         $stmt->bindValue(':offset', $offset, \PDO::PARAM_INT);
-        
+
         $stmt->execute();
         return $stmt->fetchAll();
     }
@@ -62,19 +63,20 @@ class Fee {
     public function countAll($search = '') {
         $sql = "SELECT COUNT(*) FROM fees";
         $params = [];
-        
+
         if (!empty($search)) {
-            $sql .= " WHERE name LIKE :search OR description LIKE :search";
-            $params['search'] = "%$search%";
+            $sql .= " WHERE name LIKE :search1 OR description LIKE :search2";
+            $params['search1'] = "%$search%";
+            $params['search2'] = "%$search%";
         }
-        
+
         $stmt = $this->db->prepare($sql);
-        
+
         // Bind parameters
         foreach ($params as $key => $value) {
-            $stmt->bindValue($key, $value);
+            $stmt->bindValue(':' . $key, $value);
         }
-        
+
         $stmt->execute();
         return (int) $stmt->fetchColumn();
     }

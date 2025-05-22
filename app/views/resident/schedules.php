@@ -19,6 +19,7 @@
             <h1 class="text-2xl font-bold text-gray-800 mb-6">Jadwal Kegiatan</h1>
             
             <!-- Search -->
+            <?php /*
             <div class="bg-white rounded-lg shadow mb-6">
                 <div class="p-4">
                     <form action="/schedules" method="GET" class="flex flex-col md:flex-row gap-4">
@@ -41,6 +42,7 @@
                     </form>
                 </div>
             </div>
+            */ ?>
             
             <!-- Schedules List -->
             <div class="bg-white rounded-lg shadow overflow-hidden">
