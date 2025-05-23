@@ -124,3 +124,62 @@ document.addEventListener("DOMContentLoaded", () => {
     })
   })
 })
+
+// Toast notification utility
+function showToast(message, type = 'info') {
+    const toastContainer = document.getElementById('toast-container') || (() => {
+        const div = document.createElement('div');
+        div.id = 'toast-container';
+        div.className = 'fixed bottom-4 right-4 z-50 space-y-2';
+        document.body.appendChild(div);
+        return div;
+    })();
+
+    const toast = document.createElement('div');
+    toast.className = `p-3 rounded-md shadow-lg text-white text-sm flex items-center justify-between transition-all duration-300 transform translate-y-full opacity-0`;
+
+    let bgColor;
+    switch (type) {
+        case 'success': bgColor = 'bg-green-500'; break;
+        case 'error': bgColor = 'bg-red-500'; break;
+        case 'info': bgColor = 'bg-blue-500'; break;
+        default: bgColor = 'bg-gray-700';
+    }
+    toast.classList.add(bgColor);
+
+    toast.innerHTML = `
+        <span>${message}</span>
+        <button class="ml-4 text-white hover:text-gray-200 focus:outline-none close-toast">
+            <svg class="h-4 w-4" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+                <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M6 18L18 6M6 6l12 12" />
+            </svg>
+        </button>
+    `;
+
+    toastContainer.appendChild(toast);
+
+    // Animate in
+    setTimeout(() => {
+        toast.classList.remove('translate-y-full', 'opacity-0');
+        toast.classList.add('translate-y-0', 'opacity-100');
+    }, 100);
+
+    // Auto-remove after 5 seconds
+    const timeoutId = setTimeout(() => {
+        hideToast(toast);
+    }, 5000);
+
+    // Close button functionality
+    toast.querySelector('.close-toast').addEventListener('click', () => {
+        clearTimeout(timeoutId);
+        hideToast(toast);
+    });
+
+    function hideToast(toastElement) {
+        toastElement.classList.remove('translate-y-0', 'opacity-100');
+        toastElement.classList.add('translate-y-full', 'opacity-0');
+        toastElement.addEventListener('transitionend', () => {
+            toastElement.remove();
+        }, { once: true });
+    }
+}

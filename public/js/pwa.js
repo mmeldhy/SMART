@@ -1,5 +1,3 @@
-// PWA functionality for RT Management System
-
 // Register service worker
 if ("serviceWorker" in navigator) {
   window.addEventListener("load", () => {
@@ -58,8 +56,7 @@ function requestNotificationPermission() {
 // Subscribe to push notifications (simulation)
 function subscribeToPushNotifications() {
   console.log("Subscribed to push notifications (simulation)")
-  // In a real app, this would register with a push service
-  // and send the subscription to the server
+
 }
 
 // Show notification (simulation)
@@ -67,7 +64,6 @@ function showNotification(title, body, url = "/") {
   if ("Notification" in window && Notification.permission === "granted") {
     const notification = new Notification(title, {
       body: body,
-      icon: "/img/icon-192x192.png",
     })
 
     notification.onclick = () => {
@@ -107,6 +103,50 @@ window.addEventListener("DOMContentLoaded", () => {
   // Check if app is in standalone mode (installed)
   if (window.matchMedia("(display-mode: standalone)").matches) {
     document.body.classList.add("pwa-installed")
+  }
+
+  // Handle offline form submission with background sync if supported
+  if ('serviceWorker' in navigator && 'SyncManager' in window) {
+    const form = document.querySelector('form[data-validate]');
+    if (form) {
+      form.addEventListener('submit', function(event) {
+        if (!navigator.onLine) {
+          event.preventDefault();
+          const formData = new FormData(this);
+          const endpoint = this.getAttribute('action');
+
+          // Store the data in localStorage (for demo; IndexedDB is better for production)
+          const cachedSubmissions = JSON.parse(localStorage.getItem("cachedSubmissions") || "[]");
+          cachedSubmissions.push({
+            endpoint: endpoint,
+            method: this.method,
+            data: Object.fromEntries(formData),
+            timestamp: new Date().getTime(),
+          });
+          localStorage.setItem("cachedSubmissions", JSON.stringify(cachedSubmissions));
+
+          // Register a background sync tag
+          navigator.serviceWorker.ready.then(registration => {
+            registration.sync.register('sync-form-data')
+              .then(() => {
+                console.log('Background sync registered!');
+                if (typeof showToast === 'function') {
+                  showToast('Laporan disimpan dan akan dikirim saat online kembali', 'info');
+                }
+                setTimeout(() => {
+                  window.location.href = '/reports';
+                }, 2000);
+              })
+              .catch(error => {
+                console.error('Background sync registration failed:', error);
+                if (typeof showToast === 'function') {
+                  showToast('Gagal mendaftarkan sync latar belakang. Coba lagi saat online.', 'error');
+                }
+              });
+          });
+        }
+      });
+    }
   }
 })
 
