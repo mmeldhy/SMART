@@ -1,6 +1,6 @@
 <?php
 /**
- * RT Management System - Entry Point
+ * SMART - Entry Point
  * 
  * This is the main entry point for the application.
  * All requests are routed through this file.

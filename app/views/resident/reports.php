@@ -88,11 +88,14 @@
                                                     case 'pending':
                                                         echo 'Menunggu';
                                                         break;
-                                                    case 'process':
+                                                    case 'in_progress': // Changed from 'process' to match DB ENUM
                                                         echo 'Diproses';
                                                         break;
-                                                    case 'completed':
+                                                    case 'resolved': // Changed from 'completed' to match DB ENUM
                                                         echo 'Selesai';
+                                                        break;
+                                                    case 'rejected':
+                                                        echo 'Ditolak';
                                                         break;
                                                     default:
                                                         echo ucfirst($report['status']);

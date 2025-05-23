@@ -150,63 +150,63 @@
                     </form>
                 </div>
             <?php else: ?>
-                <!-- Payment Status -->
                 <div class="bg-white rounded-lg shadow overflow-hidden">
                     <div class="border-b px-4 py-3">
                         <h2 class="font-medium text-gray-800">Status Pembayaran</h2>
                     </div>
                     <div class="p-6">
-                        <?php if(isset($data['payment'])):  ?>
-                        <div class="flex items-center justify-center flex-col">
-                             <?php if ($payment['status'] === 'pending'): ?>
-                                 <div class="rounded-full bg-yellow-100 p-3 mb-4">
-                                     <svg xmlns="http://www.w3.org/2000/svg" class="h-8 w-8 text-yellow-600" fill="none" viewBox="0 0 24 24" stroke="currentColor">
-                                        <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M12 8v4l3 3m6-3a9 9 0 11-18 0 9 9 0 0118 0z" />
-                                    </svg>
-                                </div>
-                                <h3 class="text-lg font-medium text-gray-900 mb-2">Menunggu Verifikasi</h3>
-                                <p class="text-gray-500 text-center mb-4">
-                                    Pembayaran Anda sedang diverifikasi oleh admin. Mohon tunggu.
-                                </p>
-                            <?php elseif ($payment['status'] === 'approved'): ?>
-                                <div class="rounded-full bg-green-100 p-3 mb-4">
-                                    <svg xmlns="http://www.w3.org/2000/svg" class="h-8 w-8 text-green-600" fill="none" viewBox="0 0 24 24" stroke="currentColor">
-                                        <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M5 13l4 4L19 7" />
-                                    </svg>
-                                </div>
-                                <h3 class="text-lg font-medium text-gray-900 mb-2">Pembayaran Diverifikasi</h3>
-                                <p class="text-gray-500 text-center mb-4">
-                                    Pembayaran Anda telah diverifikasi oleh admin. Terima kasih.
-                                </p>
-                            <?php elseif ($payment['status'] === 'rejected'): ?>
-                                <div class="rounded-full bg-red-100 p-3 mb-4">
-                                    <svg xmlns="http://www.w3.org/2000/svg" class="h-8 w-8 text-red-600" fill="none" viewBox="0 0 24 24" stroke="currentColor">
-                                        <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M6 18L18 6M6 6l12 12" />
-                                    </svg>
-                                </div>
-                                <h3 class="text-lg font-medium text-gray-900 mb-2">Pembayaran Ditolak</h3>
-                                <p class="text-gray-500 text-center mb-4">
-                                    Pembayaran Anda ditolak oleh admin. Silahkan hubungi admin untuk informasi lebih lanjut.
-                                </p>
-                            <?php endif; ?>
-                            
-                            <div class="mt-4 w-full max-w-md">
-                                <h4 class="text-sm font-medium text-gray-700 mb-2">Bukti Pembayaran</h4>
-                                <?php if(isset($payment['proof_image'])): ?>
-                                 <div class="border rounded-md overflow-hidden">
-                                     <img src="<?= $payment['proof_image'] ?>" alt="Bukti Pembayaran" class="w-full h-auto">
-                                 </div>
-                                 <p class="text-xs text-gray-500 mt-1">
-                                     Diunggah pada: <?= date('d F Y H:i', strtotime($payment['created_at'])) ?>
-                                 </p>
+                        <?php if(isset($data['payment'])): // Check if payment data exists before rendering ?>
+                            <div class="flex items-center justify-center flex-col">
+                                <?php if ($data['payment']['status'] === 'pending'): ?>
+                                    <div class="rounded-full bg-yellow-100 p-3 mb-4">
+                                        <svg xmlns="http://www.w3.org/2000/svg" class="h-8 w-8 text-yellow-600" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+                                            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M12 8v4l3 3m6-3a9 9 0 11-18 0 9 9 0 0118 0z" />
+                                        </svg>
+                                    </div>
+                                    <h3 class="text-lg font-medium text-gray-900 mb-2">Menunggu Verifikasi</h3>
+                                    <p class="text-gray-500 text-center mb-4">
+                                        Pembayaran Anda sedang diverifikasi oleh admin. Mohon tunggu.
+                                    </p>
+                                <?php elseif ($data['payment']['status'] === 'approved'): // Changed from 'verified' ?>
+                                    <div class="rounded-full bg-green-100 p-3 mb-4">
+                                        <svg xmlns="http://www.w3.org/2000/svg" class="h-8 w-8 text-green-600" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+                                            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M5 13l4 4L19 7" />
+                                        </svg>
+                                    </div>
+                                    <h3 class="text-lg font-medium text-gray-900 mb-2">Pembayaran Diverifikasi</h3>
+                                    <p class="text-gray-500 text-center mb-4">
+                                        Pembayaran Anda telah diverifikasi oleh admin. Terima kasih.
+                                    </p>
+                                <?php elseif ($data['payment']['status'] === 'rejected'): ?>
+                                    <div class="rounded-full bg-red-100 p-3 mb-4">
+                                        <svg xmlns="http://www.w3.org/2000/svg" class="h-8 w-8 text-red-600" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+                                            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M6 18L18 6M6 6l12 12" />
+                                        </svg>
+                                    </div>
+                                    <h3 class="text-lg font-medium text-gray-900 mb-2">Pembayaran Ditolak</h3>
+                                    <p class="text-gray-500 text-center mb-4">
+                                        Pembayaran Anda ditolak oleh admin. Silahkan hubungi admin untuk informasi lebih lanjut.
+                                    </p>
                                 <?php endif; ?>
-                          </div>
-                         <?php else: ?>
+
+                                <div class="mt-4 w-full max-w-md">
+                                    <h4 class="text-sm font-medium text-gray-700 mb-2">Bukti Pembayaran</h4>
+                                    <?php if(isset($data['payment']['proof_image'])): ?>
+                                        <div class="border rounded-md overflow-hidden">
+                                            <img src="<?= $data['payment']['proof_image'] ?>" alt="Bukti Pembayaran" class="w-full h-auto">
+                                        </div>
+                                        <p class="text-xs text-gray-500 mt-1">
+                                            Diunggah pada: <?= date('d F Y H:i', strtotime($data['payment']['created_at'])) ?>
+                                        </p>
+                                    <?php endif; ?>
+                                </div>
+                            </div>
+                        <?php else: ?>
                             <p class="text-gray-500 text-center mb-4">Belum ada pembayaran dilakukan.</p>
-                         <?php endif; ?>
-                      </div>
-                  </div>
-             <?php endif; ?>
+                        <?php endif; ?>
+                    </div>
+                </div>
+            <?php endif; ?>
         </div>
     </main>
     

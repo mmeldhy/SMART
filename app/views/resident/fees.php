@@ -95,21 +95,21 @@
                                         </td>
                                         <td class="px-6 py-4 whitespace-nowrap" data-label="Status">
                                             <?php if ($fee['is_paid']): ?>
-                                                <?php if ($fee['payment_status'] === 'pending'): ?>
+                                                <?php if (isset($fee['payment_status']) && $fee['payment_status'] === 'pending'): ?>
                                                     <span class="px-2 inline-flex text-xs leading-5 font-semibold rounded-full bg-yellow-100 text-yellow-800">
                                                         Menunggu Verifikasi
                                                     </span>
-                                                <?php elseif ($fee['payment_status'] === 'approved'): ?>
+                                                <?php elseif (isset($fee['payment_status']) && $fee['payment_status'] === 'approved'): ?>
                                                     <span class="px-2 inline-flex text-xs leading-5 font-semibold rounded-full bg-green-100 text-green-800">
                                                         Lunas
                                                     </span>
-                                                <?php elseif ($fee['payment_status'] === 'rejected'): ?>
+                                                <?php elseif (isset($fee['payment_status']) && $fee['payment_status'] === 'rejected'): ?>
                                                     <span class="px-2 inline-flex text-xs leading-5 font-semibold rounded-full bg-red-100 text-red-800">
                                                         Ditolak
                                                     </span>
                                                 <?php endif; ?>
-                                                 <div class="text-xs text-gray-500 mt-1">
-                                                     <?= isset($fee['payment_date']) ? date('d/m/Y', strtotime($fee['payment_date'])) : '' ?>
+                                                <div class="text-xs text-gray-500 mt-1">
+                                                    <?= isset($fee['payment_date']) ? date('d/m/Y', strtotime($fee['payment_date'])) : '' ?>
                                                 </div>
                                             <?php else: ?>
                                                 <span class="px-2 inline-flex text-xs leading-5 font-semibold rounded-full bg-red-100 text-red-800">
@@ -119,7 +119,9 @@
                                         </td>
                                         <td class="px-6 py-4 whitespace-nowrap text-right text-sm font-medium" data-label="Aksi">
                                             <a href="/fee/<?= $fee['id'] ?>" class="text-green-600 hover:text-green-900">
-                                                <?php if (!$fee['is_paid']): ?>
+                                                <?php if ($fee['is_paid'] && $fee['payment_status'] === 'pending'): ?>
+                                                    Lihat Bukti
+                                                <?php elseif (!$fee['is_paid']): ?>
                                                     Bayar
                                                 <?php else: ?>
                                                     Detail

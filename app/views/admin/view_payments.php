@@ -123,7 +123,8 @@
                                         <label for="status" class="block text-sm font-medium text-gray-700 mb-1">Status</label>
                                         <select id="status" name="status" class="mt-1 block w-full pl-3 pr-10 py-2 text-base border-gray-300 focus:outline-none focus:ring-green-500 focus:border-green-500 sm:text-sm rounded-md">
                                             <option value="pending" <?php echo (isset($data['payment']['status']) && $data['payment']['status'] === 'pending') ? 'selected' : ''; ?>>Pending</option>
-                                            <option value="approved" <?php echo (isset($data['payment']['status']) && $data['payment']['status'] === 'approved') ? 'selected' : ''; ?>>Approved</option> <option value="rejected" <?php echo (isset($data['payment']['status']) && $data['payment']['status'] === 'rejected') ? 'selected' : ''; ?>>Rejected</option>
+                                            <option value="approved" <?php echo (isset($data['payment']['status']) && $data['payment']['status'] === 'approved') ? 'selected' : ''; ?>>Approved</option>
+                                            <option value="rejected" <?php echo (isset($data['payment']['status']) && $data['payment']['status'] === 'rejected') ? 'selected' : ''; ?>>Rejected</option>
                                         </select>
                                     </div>
                                     

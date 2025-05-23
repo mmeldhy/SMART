@@ -29,7 +29,7 @@
                             <select id="status" name="status" class="mt-1 block w-full pl-3 pr-10 py-2 text-base border-gray-300 focus:outline-none focus:ring-green-500 focus:border-green-500 sm:text-sm rounded-md">
                                 <option value="">All Statuses</option>
                                 <option value="pending" <?php echo isset($_GET['status']) && $_GET['status'] === 'pending' ? 'selected' : ''; ?>>Pending</option>
-                                <option value="verified" <?php echo isset($_GET['status']) && $_GET['status'] === 'verified' ? 'selected' : ''; ?>>Verified</option>
+                                <option value="approved" <?php echo isset($_GET['status']) && $_GET['status'] === 'approved' ? 'selected' : ''; ?>>Approved</option>
                                 <option value="rejected" <?php echo isset($_GET['status']) && $_GET['status'] === 'rejected' ? 'selected' : ''; ?>>Rejected</option>
                             </select>
                         </div>
@@ -110,12 +110,12 @@
                                             <?php 
                                                 $statusClasses = [
                                                     'pending' => 'bg-yellow-100 text-yellow-800',
-                                                    'verified' => 'bg-green-100 text-green-800',
+                                                    'approved' => 'bg-green-100 text-green-800', // Changed from 'verified'
                                                     'rejected' => 'bg-red-100 text-red-800'
                                                 ];
                                                 $statusLabels = [
                                                     'pending' => 'Pending',
-                                                    'verified' => 'Verified',
+                                                    'approved' => 'Approved', // Changed from 'Verified'
                                                     'rejected' => 'Rejected'
                                                 ];
                                                 $status = isset($payment['status']) ? $payment['status'] : '';

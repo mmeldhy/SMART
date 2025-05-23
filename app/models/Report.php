@@ -44,8 +44,10 @@ class Report {
         $params = [];
         
         if (!empty($search)) {
-            $sql .= " AND (r.title LIKE :search OR r.description LIKE :search OR u.name LIKE :search)";
-            $params['search'] = "%$search%";
+            $sql .= " AND (r.title LIKE :search_title OR r.description LIKE :search_description OR u.name LIKE :search_name)";
+            $params['search_title'] = "%$search%";
+            $params['search_description'] = "%$search%";
+            $params['search_name'] = "%$search%";
         }
         
         if (!empty($status)) {
@@ -59,7 +61,7 @@ class Report {
         
         // Bind parameters
         foreach ($params as $key => $value) {
-            $stmt->bindValue($key, $value);
+            $stmt->bindValue(':' . $key, $value);
         }
         
         $stmt->bindValue(':limit', $limit, \PDO::PARAM_INT);
@@ -86,8 +88,10 @@ class Report {
         $params = [];
         
         if (!empty($search)) {
-            $sql .= " AND (r.title LIKE :search OR r.description LIKE :search OR u.name LIKE :search)";
-            $params['search'] = "%$search%";
+            $sql .= " AND (r.title LIKE :search_title OR r.description LIKE :search_description OR u.name LIKE :search_name)";
+            $params['search_title'] = "%$search%";
+            $params['search_description'] = "%$search%";
+            $params['search_name'] = "%$search%";
         }
         
         if (!empty($status)) {
@@ -99,7 +103,7 @@ class Report {
         
         // Bind parameters
         foreach ($params as $key => $value) {
-            $stmt->bindValue($key, $value);
+            $stmt->bindValue(':' . $key, $value);
         }
         
         $stmt->execute();

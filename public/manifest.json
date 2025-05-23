@@ -1,6 +1,6 @@
 {
-  "name": "RT Management System",
-  "short_name": "RT App",
+  "name": "Sistem Informasi Manajemen Lingkungan RT",
+  "short_name": "SMART",
   "description": "Sistem Informasi Manajemen Lingkungan RT",
   "start_url": "/",
   "display": "standalone",

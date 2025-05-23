@@ -83,7 +83,7 @@ class ReportController {
         }
         
         $status = $this->sanitizeInput($_POST['status']);
-        $response = isset($_POST['response']) ? $this->sanitizeInput($_POST['response']) : '';
+        $response = isset($_POST['response']) ? $this->sanitizeInput($_POST['response']) : ''; // This is the input from the form
         
         // Validate status
         $validStatuses = ['pending', 'in_progress', 'resolved', 'rejected'];
@@ -103,7 +103,7 @@ class ReportController {
         }
         
         // Update status
-        $result = $reportModel->updateStatus($id, $status, $response);
+        $result = $reportModel->updateStatus($id, $status, $response); // Pass $response
         
         if ($result) {
             $_SESSION['success'] = 'Status laporan berhasil diperbarui';

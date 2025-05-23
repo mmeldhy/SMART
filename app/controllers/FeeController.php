@@ -313,7 +313,7 @@ class FeeController {
         $admin_notes = isset($_POST['admin_notes']) ? $this->sanitizeInput($_POST['admin_notes']) : '';
 
         // Validate status
-        $validStatuses = ['pending', 'approved', 'rejected']; // Changed 'verified' to 'approved' to match ENUM in DB
+        $validStatuses = ['pending', 'approved', 'rejected']; // Changed 'verified' to 'approved'
         if (!in_array($status, $validStatuses)) {
             $_SESSION['error'] = 'Status tidak valid';
             header("Location: /admin/payment/$id");

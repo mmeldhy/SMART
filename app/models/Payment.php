@@ -197,19 +197,19 @@ class Payment {
     }
     
     /**
-     * Check if user has paid a fee
+     * Check if user has paid a fee with approved status
      *
      * @param int $userId User ID
      * @param int $feeId Fee ID
-     * @return bool True if paid, false otherwise
+     * @return bool True if paid and approved, false otherwise
      */
     public function hasPaid($userId, $feeId) {
-        $stmt = $this->db->prepare("SELECT COUNT(*) FROM payments WHERE user_id = :user_id AND fee_id = :fee_id AND status = 'approved'"); // Check only approved payments
+        $stmt = $this->db->prepare("SELECT COUNT(*) FROM payments WHERE user_id = :user_id AND fee_id = :fee_id AND status = 'approved'");
         $stmt->execute([
             'user_id' => $userId,
             'fee_id' => $feeId
         ]);
-        
+
         return (int) $stmt->fetchColumn() > 0;
     }
 
