@@ -83,7 +83,7 @@
     <div class="flex flex-col w-64">
         <div class="flex flex-col h-0 flex-1 bg-green-700">
             <div class="flex items-center h-16 flex-shrink-0 px-4 bg-green-800">
-                <h1 class="text-xl font-bold text-white">RT Management</h1>
+                <h1 class="text-xl font-bold text-white">SMART</h1>
             </div>
             <div class="flex-1 flex flex-col overflow-y-auto">
                 <nav class="flex-1 px-2 py-4 space-y-1">
