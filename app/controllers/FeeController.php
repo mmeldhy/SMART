@@ -41,7 +41,7 @@ class FeeController {
             error_log('Database connection error: ' . $e->getMessage());
             // Display a user-friendly error message
             $_SESSION['error'] = 'Terjadi kesalahan pada koneksi database. Silakan coba lagi nanti.';
-            header('Location: /admin/payments');
+            header('Location: /admin/payments'); // Redirect to a safe page
             exit;
         }
     }
@@ -244,7 +244,7 @@ class FeeController {
         $totalPages = ceil($totalPayments / $limit);
     
         // Fetch fees for the filter dropdown
-        $fees = $feeModel->getAll();
+        $fees = $feeModel->getAll(); // This gets all fees, might need a more specific method if you have many fees
     
         // Calculate start and end record numbers for display
         $startRecord = ($page - 1) * $limit + 1;
@@ -272,8 +272,18 @@ class FeeController {
      */
     public function paymentDetail($id) {
         $paymentModel = new Payment();
-        //Fix
-        $payment = $paymentModel->findById($id);
+        
+        // Fetch payment details including user and fee info
+        $stmt = $this->db->prepare("
+            SELECT p.*, u.name as resident_name, u.phone as resident_phone, u.address as resident_address,
+                   f.name as fee_name, f.amount as fee_amount, f.description as fee_description
+            FROM payments p
+            JOIN users u ON p.user_id = u.id
+            JOIN fees f ON p.fee_id = f.id
+            WHERE p.id = :id
+        ");
+        $stmt->execute(['id' => $id]);
+        $payment = $stmt->fetch();
     
         if (!$payment) {
             $_SESSION['error'] = 'Payment not found';
@@ -282,7 +292,7 @@ class FeeController {
         }
     
         $data = [
-            'payment' => $payment
+            'payment' => $payment // Correctly passing $payment to the view
         ];
     
         require_once BASE_PATH . '/app/views/admin/view_payments.php';
@@ -303,7 +313,7 @@ class FeeController {
         $admin_notes = isset($_POST['admin_notes']) ? $this->sanitizeInput($_POST['admin_notes']) : '';
 
         // Validate status
-        $validStatuses = ['pending', 'verified', 'rejected'];
+        $validStatuses = ['pending', 'approved', 'rejected']; // Changed 'verified' to 'approved' to match ENUM in DB
         if (!in_array($status, $validStatuses)) {
             $_SESSION['error'] = 'Status tidak valid';
             header("Location: /admin/payment/$id");
@@ -319,37 +329,27 @@ class FeeController {
             exit;
         }
 
-        // Update status
-        $result = $paymentModel->updateStatus($id, $status);
+        // Update status and admin_notes in one go
+        $stmt = $this->db->prepare("
+            UPDATE payments SET
+                status = :status,
+                admin_response = :admin_notes, -- Changed from admin_notes to admin_response to match DB schema
+                updated_at = NOW()
+            WHERE id = :id
+        ");
+
+        $result = $stmt->execute([
+            'id' => $id,
+            'status' => $status,
+            'admin_notes' => $admin_notes // Using the variable name from form input
+        ]);
 
         if ($result) {
-            // Update admin notes
-            try {
-                $stmt = $this->db->prepare("
-                    UPDATE payments SET
-                        admin_notes = :admin_notes,
-                        updated_at = NOW()
-                    WHERE id = :id
-                ");
-
-                $stmt->execute([
-                    'id' => $id,
-                    'admin_notes' => $admin_notes
-                ]);
-            } catch (\PDOException $e) {
-                // Log the error
-                error_log('Database update error: ' . $e->getMessage());
-                // Display a user-friendly error message
-                $_SESSION['success'] = 'Status pembayaran berhasil diperbarui';
-                header("Location: /admin/payment/$id");
-                exit;
-            }
-
             $_SESSION['success'] = 'Status pembayaran berhasil diperbarui';
-            header("Location: /admin/payment/$id"); // Corrected redirection
+            header("Location: /admin/payment/$id"); 
         } else {
             $_SESSION['error'] = 'Gagal memperbarui status pembayaran';
-            header("Location: /admin/payment/$id"); // Corrected redirection
+            header("Location: /admin/payment/$id"); 
         }
     }
 

@@ -37,7 +37,7 @@
                         
                         <div class="mb-4">
                             <label for="content" class="block text-sm font-medium text-gray-700 mb-1">Content</label>
-                            <textarea id="content" name="content" rows="6" class="shadow-sm focus:ring-green-500 focus:border-green-500 block w-full sm:text-sm border-gray-300 rounded-md" required><?php echo htmlspecialchars($announcement['content'] ?? ''); ?></textarea>
+                            <textarea id="content" name="content" rows="6" class="shadow-sm focus:ring-green-500 focus:border-green-500 block w-full sm:text-sm border-gray-300 rounded-md wysiwyg-editor" data-name="content" required><?php echo htmlspecialchars($announcement['content'] ?? ''); ?></textarea>
                         </div>
                         
                         <div class="mb-4">

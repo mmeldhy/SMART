@@ -66,10 +66,9 @@
                                         </td>
                                         <td class="px-6 py-4 whitespace-nowrap">
                                             <div class="text-sm text-gray-500">
-                                                <?php echo date('d M Y', strtotime($schedule['date'] ?? '')); ?>
+                                                <?php echo date('d M Y', strtotime($schedule['schedule_datetime'] ?? '')); ?>
                                                 <br>
-                                                <?php echo date('H:i', strtotime($schedule['start_time'] ?? '')); ?> - 
-                                                <?php echo date('H:i', strtotime($schedule['end_time'] ?? '')); ?>
+                                                <?php echo date('H:i', strtotime($schedule['schedule_datetime'] ?? '')); ?> WIB
                                             </div>
                                         </td>
                                         <td class="px-6 py-4 whitespace-nowrap">
@@ -78,7 +77,7 @@
                                         <td class="px-6 py-4 whitespace-nowrap">
                                             <?php 
                                                 $now = new DateTime();
-                                                $scheduleDate = new DateTime(($schedule['date'] ?? '') . ' ' . ($schedule['end_time'] ?? ''));
+                                                $scheduleDate = new DateTime(($schedule['schedule_datetime'] ?? ''));
                                                 $isPast = $scheduleDate < $now;
                                                 
                                                 if (($schedule['status'] ?? '') === 'cancelled'): 

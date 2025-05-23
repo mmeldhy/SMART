@@ -94,7 +94,7 @@
                                                 <?php endif; ?>
                                                 <div>
                                                     <div class="text-sm font-medium text-gray-900"><?php echo htmlspecialchars($announcement['title'] ?? ''); ?></div>
-                                                    <div class="text-sm text-gray-500"><?php echo substr(htmlspecialchars($announcement['content'] ?? ''), 0, 50) . (strlen($announcement['content'] ?? '') > 50 ? '...' : ''); ?></div>
+                                                    <div class="text-sm text-gray-500"><?php echo substr(strip_tags($announcement['content'] ?? ''), 0, 50) . (strlen(strip_tags($announcement['content'] ?? '')) > 50 ? '...' : ''); ?></div>
                                                 </div>
                                             </div>
                                         </td>

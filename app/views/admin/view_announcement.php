@@ -24,11 +24,7 @@
                                     <svg xmlns="http://www.w3.org/2000/svg" class="h-4 w-4 inline mr-1" fill="none" viewBox="0 0 24 24" stroke="currentColor">
                                         <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M8 7V3m8 4V3m-9 8h10M5 21h14a2 2 0 002-2V7a2 2 0 00-2-2H5a2 2 0 00-2 2v12a2 2 0 002 2z" />
                                     </svg>
-                                    <?php echo date('d M Y', strtotime($announcement['start_date'] ?? '')); ?>
-                                    <?php if (!empty($announcement['end_date'])): ?>
-                                        <span class="mx-1">-</span>
-                                        <?php echo date('d M Y', strtotime($announcement['end_date'])); ?>
-                                    <?php endif; ?>
+                                    <?php echo date('d M Y', strtotime($announcement['created_at'] ?? '')); ?>
                                 </span>
                                 <span>
                                     <svg xmlns="http://www.w3.org/2000/svg" class="h-4 w-4 inline mr-1" fill="none" viewBox="0 0 24 24" stroke="currentColor">
@@ -76,7 +72,7 @@
                     
                     <div class="mt-6">
                         <div class="prose max-w-none text-gray-700">
-                            <?php echo nl2br(htmlspecialchars($announcement['content'] ?? '')); ?>
+                            <?php echo $announcement['content'] ?? ''; ?>
                         </div>
                     </div>
                     
@@ -85,7 +81,7 @@
                             <a href="/admin/announcement/edit/<?php echo $announcement['id']; ?>" class="inline-flex justify-center py-2 px-4 border border-transparent shadow-sm text-sm font-medium rounded-md text-white bg-green-600 hover:bg-green-700 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-green-500">
                                 Edit Announcement
                             </a>
-                            <form action="/admin/announcements/delete/<?php echo $announcement['id']; ?>" method="POST" class="inline" onsubmit="return confirm('Are you sure you want to delete this announcement?');">
+                            <form action="/admin/announcement/delete/<?php echo $announcement['id']; ?>" method="POST" class="inline" onsubmit="return confirm('Are you sure you want to delete this announcement?');">
                                 <button type="submit" class="inline-flex justify-center py-2 px-4 border border-gray-300 shadow-sm text-sm font-medium rounded-md text-gray-700 bg-white hover:bg-gray-50 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-red-500">
                                     Delete
                                 </button>

@@ -10,10 +10,8 @@
     <meta name="theme-color" content="#4CAF50">
 </head>
 <body class="bg-gray-100 min-h-screen flex flex-col">
-    <!-- Resident Header -->
     <?php include BASE_PATH . '/app/views/components/resident_header.php'; ?>
     
-    <!-- Main Content -->
     <main class="flex-1 p-4 md:p-6">
         <div class="max-w-3xl mx-auto">
             <div class="flex justify-between items-center mb-6">
@@ -26,7 +24,6 @@
                 </a>
             </div>
             
-            <!-- Announcement Detail -->
             <div class="bg-white rounded-lg shadow overflow-hidden">
                 <div class="p-6">
                     <h2 class="text-2xl font-bold text-gray-800 mb-2"><?= htmlspecialchars($data['announcement']['title']) ?></h2>
@@ -40,10 +37,8 @@
         </div>
     </main>
     
-    <!-- Footer -->
     <?php include BASE_PATH . '/app/views/components/resident_footer.php'; ?>
     
-    <!-- Offline alert -->
     <div id="offline-alert" class="fixed bottom-0 left-0 right-0 bg-red-500 text-white p-2 text-center hidden">
         Anda sedang offline. Beberapa fitur mungkin tidak tersedia.
     </div>

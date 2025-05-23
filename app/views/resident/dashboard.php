@@ -124,8 +124,8 @@
                         <?php endif; ?>
                     </div>
                 </div>
-                
-                <!-- Upcoming Schedules -->
+
+                <!-- Jadwal Mendatang -->
                 <div class="bg-white rounded-lg shadow">
                     <div class="border-b px-4 py-3">
                         <h2 class="font-medium text-gray-800">Jadwal Mendatang</h2>

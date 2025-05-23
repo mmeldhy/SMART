@@ -152,23 +152,26 @@ class Payment {
     }
 
     /**
-     * Update payment status
+     * Update payment status (AND admin_response)
      *
      * @param int $id Payment ID
      * @param string $status New status
+     * @param string $adminNotes Admin's notes/response
      * @return bool Success status
      */
-    public function updateStatus($id, $status) {
+    public function updateStatus($id, $status, $adminNotes = null) { // Added adminNotes parameter
         $stmt = $this->db->prepare("
             UPDATE payments SET
                 status = :status,
+                admin_response = :admin_response, -- Changed to admin_response
                 updated_at = NOW()
             WHERE id = :id
         ");
 
         return $stmt->execute([
             'id' => $id,
-            'status' => $status
+            'status' => $status,
+            'admin_response' => $adminNotes // Passed adminNotes
         ]);
     }
 
@@ -201,7 +204,7 @@ class Payment {
      * @return bool True if paid, false otherwise
      */
     public function hasPaid($userId, $feeId) {
-        $stmt = $this->db->prepare("SELECT COUNT(*) FROM payments WHERE user_id = :user_id AND fee_id = :fee_id");
+        $stmt = $this->db->prepare("SELECT COUNT(*) FROM payments WHERE user_id = :user_id AND fee_id = :fee_id AND status = 'approved'"); // Check only approved payments
         $stmt->execute([
             'user_id' => $userId,
             'fee_id' => $feeId
@@ -212,8 +215,7 @@ class Payment {
 
     /**
      * Create a new payment
-     * 
-     * @param array $data Payment data
+     * * @param array $data Payment data
      * @return bool Success status
      */
     public function create($data) {

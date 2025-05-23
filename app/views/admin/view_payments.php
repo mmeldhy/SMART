@@ -30,19 +30,19 @@
                 <div class="p-6">
                     <div class="flex justify-between items-start">
                         <div>
-                            <h1 class="text-2xl font-bold text-gray-800 mb-2">Payment #<?php echo isset($payment['id']) ? htmlspecialchars($payment['id']) : ''; ?></h1>
+                            <h1 class="text-2xl font-bold text-gray-800 mb-2">Payment #<?php echo isset($data['payment']['id']) ? htmlspecialchars($data['payment']['id']) : ''; ?></h1>
                             <div class="flex items-center text-sm text-gray-500 mb-4">
                                 <span class="mr-4">
                                     <svg xmlns="http://www.w3.org/2000/svg" class="h-4 w-4 inline mr-1" fill="none" viewBox="0 0 24 24" stroke="currentColor">
                                         <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M8 7V3m8 4V3m-9 8h10M5 21h14a2 2 0 002-2V7a2 2 0 00-2-2H5a2 2 0 00-2 2v12a2 2 0 002 2z" />
                                     </svg>
-                                    <?php echo isset($payment['payment_date']) ? date('d M Y', strtotime($payment['payment_date'])) : ''; ?>
+                                    <?php echo isset($data['payment']['payment_date']) ? date('d M Y', strtotime($data['payment']['payment_date'])) : ''; ?>
                                 </span>
                                 <span>
                                     <svg xmlns="http://www.w3.org/2000/svg" class="h-4 w-4 inline mr-1" fill="none" viewBox="0 0 24 24" stroke="currentColor">
                                         <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M16 7a4 4 0 11-8 0 4 4 0 018 0zM12 14a7 7 0 00-7 7h14a7 7 0 00-7-7z" />
                                     </svg>
-                                    <?php echo isset($payment['resident_name']) ? htmlspecialchars($payment['resident_name']) : ''; ?>
+                                    <?php echo isset($data['payment']['resident_name']) ? htmlspecialchars($data['payment']['resident_name']) : ''; ?>
                                 </span>
                             </div>
                         </div>
@@ -50,15 +50,15 @@
                             <?php 
                                 $statusClasses = [
                                     'pending' => 'bg-yellow-100 text-yellow-800',
-                                    'verified' => 'bg-green-100 text-green-800',
+                                    'approved' => 'bg-green-100 text-green-800', // Changed from 'verified'
                                     'rejected' => 'bg-red-100 text-red-800'
                                 ];
                                 $statusLabels = [
                                     'pending' => 'Pending',
-                                    'verified' => 'Verified',
+                                    'approved' => 'Approved', // Changed from 'verified'
                                     'rejected' => 'Rejected'
                                 ];
-                                $status = isset($payment['status']) ? $payment['status'] : '';
+                                $status = isset($data['payment']['status']) ? $data['payment']['status'] : '';
                                 $statusClass = $statusClasses[$status] ?? 'bg-gray-100 text-gray-800';
                                 $statusLabel = $statusLabels[$status] ?? ucfirst($status);
                             ?>
@@ -77,56 +77,39 @@
                                     <dl class="grid grid-cols-1 md:grid-cols-2 gap-x-4 gap-y-4">
                                         <div class="sm:col-span-1">
                                             <dt class="text-sm font-medium text-gray-500">Fee Type</dt>
-                                            <dd class="mt-1 text-sm text-gray-900"><?php echo isset($payment['fee_name']) ? htmlspecialchars($payment['fee_name']) : ''; ?></dd>
+                                            <dd class="mt-1 text-sm text-gray-900"><?php echo isset($data['payment']['fee_name']) ? htmlspecialchars($data['payment']['fee_name']) : ''; ?></dd>
                                         </div>
                                         <div class="sm:col-span-1">
                                             <dt class="text-sm font-medium text-gray-500">Amount</dt>
-                                            <dd class="mt-1 text-sm text-gray-900">Rp <?php echo isset($payment['amount']) ? number_format($payment['amount'], 0, ',', '.') : ''; ?></dd>
-                                        </div>
-                                        <div class="sm:col-span-1">
-                                            <dt class="text-sm font-medium text-gray-500">Payment Method</dt>
-                                            <dd class="mt-1 text-sm text-gray-900"><?php echo isset($payment['payment_method']) ? htmlspecialchars($payment['payment_method']) : ''; ?></dd>
+                                            <dd class="mt-1 text-sm text-gray-900">Rp <?php echo isset($data['payment']['fee_amount']) ? number_format($data['payment']['fee_amount'], 0, ',', '.') : ''; ?></dd>
                                         </div>
                                         <div class="sm:col-span-1">
                                             <dt class="text-sm font-medium text-gray-500">Payment Date</dt>
-                                            <dd class="mt-1 text-sm text-gray-900"><?php echo isset($payment['payment_date']) ? date('d M Y', strtotime($payment['payment_date'])) : ''; ?></dd>
-                                        </div>
-                                        <div class="sm:col-span-1">
-                                            <dt class="text-sm font-medium text-gray-500">Reference Number</dt>
-                                            <dd class="mt-1 text-sm text-gray-900"><?php echo isset($payment['reference_number']) ? htmlspecialchars($payment['reference_number']) : ''; ?></dd>
+                                            <dd class="mt-1 text-sm text-gray-900"><?php echo isset($data['payment']['payment_date']) ? date('d M Y', strtotime($data['payment']['payment_date'])) : ''; ?></dd>
                                         </div>
                                         <div class="sm:col-span-1">
                                             <dt class="text-sm font-medium text-gray-500">Submitted At</dt>
-                                            <dd class="mt-1 text-sm text-gray-900"><?php echo isset($payment['created_at']) ? date('d M Y, H:i', strtotime($payment['created_at'])) : ''; ?></dd>
+                                            <dd class="mt-1 text-sm text-gray-900"><?php echo isset($data['payment']['created_at']) ? date('d M Y, H:i', strtotime($data['payment']['created_at'])) : ''; ?></dd>
                                         </div>
                                     </dl>
                                 </div>
                                 
-                                <?php if (isset($payment['notes']) && !empty($payment['notes'])): ?>
-                                    <div class="mb-6">
-                                        <h3 class="text-md font-medium text-gray-800 mb-2">Payment Notes</h3>
-                                        <div class="bg-gray-50 rounded-lg p-4">
-                                            <p class="text-sm text-gray-900"><?php echo isset($payment['notes']) ? nl2br(htmlspecialchars($payment['notes'])) : ''; ?></p>
-                                        </div>
-                                    </div>
-                                <?php endif; ?>
-                                
-                                <?php if (isset($payment['proof_image']) && !empty($payment['proof_image'])): ?>
+                                <?php if (isset($data['payment']['proof_image']) && !empty($data['payment']['proof_image'])): ?>
                                     <div class="mb-6">
                                         <h3 class="text-md font-medium text-gray-800 mb-2">Payment Proof</h3>
                                         <div class="mt-2">
-                                            <a href="<?php echo isset($payment['proof_image']) ? $payment['proof_image'] : ''; ?>" target="_blank" class="block w-full sm:w-auto">
-                                                <img src="<?php echo isset($payment['proof_image']) ? $payment['proof_image'] : ''; ?>" alt="Payment Proof" class="max-w-full h-auto rounded-lg shadow-md hover:shadow-lg transition-shadow duration-300" style="max-height: 300px;">
+                                            <a href="<?php echo isset($data['payment']['proof_image']) ? $data['payment']['proof_image'] : ''; ?>" target="_blank" class="block w-full sm:w-auto">
+                                                <img src="<?php echo isset($data['payment']['proof_image']) ? $data['payment']['proof_image'] : ''; ?>" alt="Payment Proof" class="max-w-full h-auto rounded-lg shadow-md hover:shadow-lg transition-shadow duration-300" style="max-height: 300px;">
                                             </a>
                                         </div>
                                     </div>
                                 <?php endif; ?>
                                 
-                                <?php if (isset($payment['admin_notes']) && !empty($payment['admin_notes'])): ?>
+                                <?php if (isset($data['payment']['admin_response']) && !empty($data['payment']['admin_response'])): ?>
                                     <div class="mb-6">
                                         <h3 class="text-md font-medium text-gray-800 mb-2">Admin Notes</h3>
                                         <div class="bg-gray-50 rounded-lg p-4">
-                                            <p class="text-sm text-gray-900"><?php echo isset($payment['admin_notes']) ? nl2br(htmlspecialchars($payment['admin_notes'])) : ''; ?></p>
+                                            <p class="text-sm text-gray-900"><?php echo isset($data['payment']['admin_response']) ? nl2br(htmlspecialchars($data['payment']['admin_response'])) : ''; ?></p>
                                         </div>
                                     </div>
                                 <?php endif; ?>
@@ -135,19 +118,18 @@
                             <div>
                                 <h2 class="text-lg font-medium text-gray-800 mb-4">Update Payment Status</h2>
                                 
-                                <form action="/admin/payment/<?php echo isset($payment['id']) ? $payment['id'] : ''; ?>" method="POST" class="space-y-4">
+                                <form action="/admin/payment/<?php echo isset($data['payment']['id']) ? $data['payment']['id'] : ''; ?>" method="POST" class="space-y-4">
                                     <div>
                                         <label for="status" class="block text-sm font-medium text-gray-700 mb-1">Status</label>
                                         <select id="status" name="status" class="mt-1 block w-full pl-3 pr-10 py-2 text-base border-gray-300 focus:outline-none focus:ring-green-500 focus:border-green-500 sm:text-sm rounded-md">
-                                            <option value="pending" <?php echo (isset($payment['status']) && $payment['status'] === 'pending') ? 'selected' : ''; ?>>Pending</option>
-                                            <option value="verified" <?php echo (isset($payment['status']) && $payment['status'] === 'verified') ? 'selected' : ''; ?>>Verified</option>
-                                            <option value="rejected" <?php echo (isset($payment['status']) && $payment['status'] === 'rejected') ? 'selected' : ''; ?>>Rejected</option>
+                                            <option value="pending" <?php echo (isset($data['payment']['status']) && $data['payment']['status'] === 'pending') ? 'selected' : ''; ?>>Pending</option>
+                                            <option value="approved" <?php echo (isset($data['payment']['status']) && $data['payment']['status'] === 'approved') ? 'selected' : ''; ?>>Approved</option> <option value="rejected" <?php echo (isset($data['payment']['status']) && $data['payment']['status'] === 'rejected') ? 'selected' : ''; ?>>Rejected</option>
                                         </select>
                                     </div>
                                     
                                     <div>
                                         <label for="admin_notes" class="block text-sm font-medium text-gray-700 mb-1">Admin Notes</label>
-                                        <textarea id="admin_notes" name="admin_notes" rows="4" class="mt-1 block w-full border-gray-300 rounded-md shadow-sm focus:ring-green-500 focus:border-green-500 sm:text-sm"><?php echo isset($payment['admin_notes']) ? htmlspecialchars($payment['admin_notes']) : ''; ?></textarea>
+                                        <textarea id="admin_notes" name="admin_notes" rows="4" class="mt-1 block w-full border-gray-300 rounded-md shadow-sm focus:ring-green-500 focus:border-green-500 sm:text-sm"><?php echo isset($data['payment']['admin_response']) ? htmlspecialchars($data['payment']['admin_response']) : ''; ?></textarea>
                                     </div>
                                     
                                     <div>
@@ -164,22 +146,17 @@
                                         <dl class="space-y-3 text-sm">
                                             <div class="grid grid-cols-3 gap-2">
                                                 <dt class="font-medium text-gray-500">Name:</dt>
-                                                <dd class="col-span-2 text-gray-900"><?php echo isset($payment['resident_name']) ? htmlspecialchars($payment['resident_name']) : ''; ?></dd>
-                                            </div>
-                                            
-                                            <div class="grid grid-cols-3 gap-2">
-                                                <dt class="font-medium text-gray-500">Email:</dt>
-                                                <dd class="col-span-2 text-gray-900"><?php echo isset($payment['resident_email']) ? htmlspecialchars($payment['resident_email']) : ''; ?></dd>
+                                                <dd class="col-span-2 text-gray-900"><?php echo isset($data['payment']['resident_name']) ? htmlspecialchars($data['payment']['resident_name']) : ''; ?></dd>
                                             </div>
                                             
                                             <div class="grid grid-cols-3 gap-2">
                                                 <dt class="font-medium text-gray-500">Phone:</dt>
-                                                <dd class="col-span-2 text-gray-900"><?php echo isset($payment['resident_phone']) ? htmlspecialchars($payment['resident_phone']) : ''; ?></dd>
+                                                <dd class="col-span-2 text-gray-900"><?php echo isset($data['payment']['resident_phone']) ? htmlspecialchars($data['payment']['resident_phone']) : ''; ?></dd>
                                             </div>
                                             
                                             <div class="grid grid-cols-3 gap-2">
                                                 <dt class="font-medium text-gray-500">Address:</dt>
-                                                <dd class="col-span-2 text-gray-900"><?php echo isset($payment['resident_address']) ? htmlspecialchars($payment['resident_address']) : ''; ?></dd>
+                                                <dd class="col-span-2 text-gray-900"><?php echo isset($data['payment']['resident_address']) ? htmlspecialchars($data['payment']['resident_address']) : ''; ?></dd>
                                             </div>
                                         </dl>
                                     </div>

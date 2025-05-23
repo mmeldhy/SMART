@@ -10,8 +10,7 @@ class Schedule {
     
     /**
      * Find schedule by ID
-     * 
-     * @param int $id
+     * * @param int $id
      * @return array|false Schedule data or false if not found
      */
     public function findById($id) {
@@ -22,8 +21,7 @@ class Schedule {
     
     /**
      * Get all schedules
-     * 
-     * @param int $limit Limit
+     * * @param int $limit Limit
      * @param int $offset Offset
      * @param string $search Search term
      * @return array Schedules
@@ -54,8 +52,7 @@ class Schedule {
     
     /**
      * Count total schedules
-     * 
-     * @param string $search Search term
+     * * @param string $search Search term
      * @return int Total count
      */
     public function countAll($search = '') {
@@ -80,8 +77,7 @@ class Schedule {
     
     /**
      * Create a new schedule
-     * 
-     * @param array $data Schedule data
+     * * @param array $data Schedule data
      * @return bool Success status
      */
     public function create($data) {
@@ -101,8 +97,7 @@ class Schedule {
      
      /**
       * Update schedule
-      * 
-      * @param int $id Schedule ID
+      * * @param int $id Schedule ID
       * @param array $data Schedule data
       * @return bool Success status
       */
@@ -119,13 +114,20 @@ class Schedule {
              WHERE id = :id
          ");
  
-		return $stmt->execute(['id' => $id, 'title' => $data['title'], 'description' => $data['description'], 'schedule_datetime' => $data['schedule_datetime'], 'location' => $data['location'], 'type' => $data['type'], 'status' => $data['status']]);
+		return $stmt->execute([
+            'id' => $id,
+            'title' => $data['title'],
+            'description' => $data['description'],
+            'schedule_datetime' => $data['schedule_datetime'],
+            'location' => $data['location'],
+            'type' => $data['type'],
+            'status' => $data['status']
+        ]);
       }
      
      /**
      * Delete schedule
-     * 
-     * @param int $id Schedule ID
+     * * @param int $id Schedule ID
      * @return bool Success status
      */
     public function delete($id) {
@@ -135,14 +137,12 @@ class Schedule {
     
     /**
      * Get upcoming schedules
-     * 
-     * @param int $limit Limit
+     * * @param int $limit Limit
      * @return array Upcoming schedules
      */
     public function getUpcoming($limit = 5) {
         $stmt = $this->db->prepare("
-            SELECT * 
-            FROM schedules 
+            SELECT * FROM schedules 
             WHERE schedule_datetime >= NOW()
             ORDER BY schedule_datetime ASC
             LIMIT :limit

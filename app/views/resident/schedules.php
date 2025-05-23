@@ -10,15 +10,12 @@
     <meta name="theme-color" content="#4CAF50">
 </head>
 <body class="bg-gray-100 min-h-screen flex flex-col">
-    <!-- Resident Header -->
     <?php include BASE_PATH . '/app/views/components/resident_header.php'; ?>
     
-    <!-- Main Content -->
     <main class="flex-1 p-4 md:p-6">
         <div class="max-w-7xl mx-auto">
             <h1 class="text-2xl font-bold text-gray-800 mb-6">Jadwal Kegiatan</h1>
             
-            <!-- Search -->
             <?php /*
             <div class="bg-white rounded-lg shadow mb-6">
                 <div class="p-4">
@@ -44,7 +41,6 @@
             </div>
             */ ?>
             
-            <!-- Schedules List -->
             <div class="bg-white rounded-lg shadow overflow-hidden">
                 <?php if (empty($data['schedules'])): ?>
                     <div class="p-6 text-center">
@@ -67,26 +63,32 @@
                                     <th scope="col" class="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">
                                         Deskripsi
                                     </th>
+                                    <th scope="col" class="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">
+                                        Lokasi
+                                    </th>
+                                    <th scope="col" class="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">
+                                        Status
+                                    </th>
                                 </tr>
                             </thead>
                             <tbody class="bg-white divide-y divide-gray-200">
                                 <?php foreach ($data['schedules'] as $schedule): ?>
                                     <?php
-                                    $scheduleDate = isset($schedule['schedule_datetime']) ? new DateTime($schedule['schedule_datetime']) : null;
+                                    $scheduleDatetime = isset($schedule['schedule_datetime']) ? new DateTime($schedule['schedule_datetime']) : null;
                                     $today = new DateTime();
-                                    $isPast = $scheduleDate && $scheduleDate < $today;
+                                    $isPast = $scheduleDatetime && $scheduleDatetime < $today;
                                     ?>
                                     <tr class="<?= $isPast ? 'bg-gray-50' : '' ?>">
                                         <td class="px-6 py-4 whitespace-nowrap" data-label="Tanggal">
                                             <div class="flex items-center">
                                                 <div class="flex-shrink-0 h-10 w-10 flex items-center justify-center rounded-full <?= $isPast ? 'bg-gray-100 text-gray-500' : 'bg-green-100 text-green-800' ?>">
-                                                    <span class="text-sm font-medium"><?= $scheduleDate ? date('d', $scheduleDate->getTimestamp()) : '' ?></span>
+                                                    <span class="text-sm font-medium"><?= $scheduleDatetime ? date('d', $scheduleDatetime->getTimestamp()) : '' ?></span>
                                                 </div>
                                                 <div class="ml-4">
-                                                    <div class="text-sm font-medium text-gray-900"><?= $scheduleDate ? date('d F Y', $scheduleDate->getTimestamp()) : '' ?></div>
+                                                    <div class="text-sm font-medium text-gray-900"><?= $scheduleDatetime ? date('d F Y', $scheduleDatetime->getTimestamp()) : '' ?></div>
                                                     <div class="text-sm text-gray-500">
                                                         <?php
-                                                        if ($scheduleDate) {
+                                                        if ($scheduleDatetime) {
                                                          $dayNames = [
                                                              'Sunday' => 'Minggu',
                                                              'Monday' => 'Senin',
@@ -96,7 +98,7 @@
                                                              'Friday' => 'Jumat',
                                                              'Saturday' => 'Sabtu'
                                                          ];
-                                                        $dayName = date('l', $scheduleDate->getTimestamp());
+                                                        $dayName = date('l', $scheduleDatetime->getTimestamp());
                                                          echo $dayNames[$dayName];
                                                          }
                                                           ?>
@@ -114,6 +116,30 @@
                                         <td class="px-6 py-4" data-label="Deskripsi">
                                             <div class="text-sm text-gray-900"><?= htmlspecialchars($schedule['description']) ?></div>
                                         </td>
+                                        <td class="px-6 py-4 whitespace-nowrap" data-label="Lokasi">
+                                            <div class="text-sm text-gray-900"><?= htmlspecialchars($schedule['location']) ?></div>
+                                        </td>
+                                        <td class="px-6 py-4 whitespace-nowrap" data-label="Status">
+                                            <?php 
+                                                $now = new DateTime();
+                                                $scheduleDateStatus = new DateTime(($schedule['schedule_datetime'] ?? 'now'));
+                                                $isPastStatus = $scheduleDateStatus < $now;
+                                                
+                                                if (($schedule['status'] ?? '') === 'cancelled'): 
+                                            ?>
+                                                <span class="px-2 inline-flex text-xs leading-5 font-semibold rounded-full bg-red-100 text-red-800">
+                                                    Cancelled
+                                                </span>
+                                            <?php elseif ($isPastStatus): ?>
+                                                <span class="px-2 inline-flex text-xs leading-5 font-semibold rounded-full bg-gray-100 text-gray-800">
+                                                    Completed
+                                                </span>
+                                            <?php else: ?>
+                                                <span class="px-2 inline-flex text-xs leading-5 font-semibold rounded-full bg-green-100 text-green-800">
+                                                    Upcoming
+                                                </span>
+                                            <?php endif; ?>
+                                        </td>
                                     </tr>
                                 <?php endforeach; ?>
                             </tbody>
@@ -121,7 +147,6 @@
                     </div>
                 <?php endif; ?>
                 
-                <!-- Pagination -->
                 <?php if ($data['totalPages'] > 1): ?>
                     <div class="bg-white px-4 py-3 flex items-center justify-between border-t border-gray-200 sm:px-6">
                         <div class="hidden sm:flex-1 sm:flex sm:items-center sm:justify-between">
@@ -162,7 +187,6 @@
                 <?php endif; ?>
             </div>
             
-            <!-- Calendar View (Optional) -->
             <div class="mt-6 bg-white rounded-lg shadow overflow-hidden">
                 <div class="border-b px-4 py-3">
                     <h2 class="font-medium text-gray-800">Kalender Kegiatan</h2>
@@ -178,7 +202,6 @@
                         </button>
                     </div>
                     <div id="calendar-container" class="mt-4 hidden">
-                        <!-- Calendar will be rendered here -->
                         <div class="text-center py-8 text-gray-500">
                             <p>Fitur kalender akan segera hadir.</p>
                         </div>
@@ -188,10 +211,8 @@
         </div>
     </main>
     
-    <!-- Footer -->
     <?php include BASE_PATH . '/app/views/components/resident_footer.php'; ?>
     
-    <!-- Offline alert -->
     <div id="offline-alert" class="fixed bottom-0 left-0 right-0 bg-red-500 text-white p-2 text-center hidden">
         Anda sedang offline. Beberapa fitur mungkin tidak tersedia.
     </div>

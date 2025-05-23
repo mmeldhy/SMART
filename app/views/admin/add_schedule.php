@@ -52,21 +52,17 @@
                         </div>
                         
                         <div class="mb-4">
-                            <label for="date" class="block text-sm font-medium text-gray-700 mb-1">Date</label>
-                            <input type="date" id="date" name="date" value="<?php echo isset($old['date']) ? htmlspecialchars($old['date']) : date('Y-m-d'); ?>" class="mt-1 block w-full border-gray-300 rounded-md shadow-sm focus:ring-green-500 focus:border-green-500 sm:text-sm" required>
+                            <label for="schedule_date" class="block text-sm font-medium text-gray-700 mb-1">Date</label>
+                            <input type="date" id="schedule_date" name="schedule_date" value="<?php echo isset($old['schedule_date']) ? htmlspecialchars($old['schedule_date']) : date('Y-m-d'); ?>" class="mt-1 block w-full border-gray-300 rounded-md shadow-sm focus:ring-green-500 focus:border-green-500 sm:text-sm" required>
                         </div>
                         
                         <div class="grid grid-cols-1 md:grid-cols-2 gap-4 mb-4">
                             <div>
-                                <label for="start_time" class="block text-sm font-medium text-gray-700 mb-1">Start Time</label>
-                                <input type="time" id="start_time" name="start_time" value="<?php echo isset($old['start_time']) ? htmlspecialchars($old['start_time']) : '08:00'; ?>" class="mt-1 block w-full border-gray-300 rounded-md shadow-sm focus:ring-green-500 focus:border-green-500 sm:text-sm" required>
+                                <label for="schedule_time" class="block text-sm font-medium text-gray-700 mb-1">Time</label>
+                                <input type="time" id="schedule_time" name="schedule_time" value="<?php echo isset($old['schedule_time']) ? htmlspecialchars($old['schedule_time']) : '08:00'; ?>" class="mt-1 block w-full border-gray-300 rounded-md shadow-sm focus:ring-green-500 focus:border-green-500 sm:text-sm" required>
                             </div>
                             
-                            <div>
-                                <label for="end_time" class="block text-sm font-medium text-gray-700 mb-1">End Time</label>
-                                <input type="time" id="end_time" name="end_time" value="<?php echo isset($old['end_time']) ? htmlspecialchars($old['end_time']) : '10:00'; ?>" class="mt-1 block w-full border-gray-300 rounded-md shadow-sm focus:ring-green-500 focus:border-green-500 sm:text-sm" required>
                             </div>
-                        </div>
                         
                         <div class="mb-4">
                             <label for="location" class="block text-sm font-medium text-gray-700 mb-1">Location</label>

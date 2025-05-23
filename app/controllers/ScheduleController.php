@@ -15,7 +15,7 @@ class ScheduleController {
         }
         
         // Check if user is admin for admin-only methods
-        $adminMethods = ['index', 'addPage', 'add', 'editPage', 'update', 'delete'];
+        $adminMethods = ['index', 'addPage', 'add', 'editPage', 'update', 'delete', 'view']; // Added 'view' to admin methods
         $currentMethod = debug_backtrace()[1]['function'];
         
         if (in_array($currentMethod, $adminMethods) && $_SESSION['role'] !== 'admin') {
@@ -42,10 +42,17 @@ class ScheduleController {
         $totalSchedules = $scheduleModel->countAll($search);
         $totalPages = ceil($totalSchedules / $limit);
         
+        // Calculate start and end record numbers for display
+        $startRecord = ($page - 1) * $limit + 1;
+        $endRecord = min($page * $limit, $totalSchedules);
+
         $data = [
             'schedules' => $schedules,
             'currentPage' => $page,
             'totalPages' => $totalPages,
+            'totalRecords' => $totalSchedules,
+            'startRecord' => $startRecord,
+            'endRecord' => $endRecord,
             'search' => $search
         ];
         
@@ -64,7 +71,7 @@ class ScheduleController {
      */
     public function add() {
         // Validate input
-        $requiredFields = ['title', 'description', 'date', 'start_time', 'end_time', 'location', 'type', 'status'];
+        $requiredFields = ['title', 'description', 'schedule_date', 'schedule_time', 'location', 'type', 'status'];
         foreach ($requiredFields as $field) {
             if (!isset($_POST[$field]) || empty($_POST[$field])) {
                 $_SESSION['error'] = 'Semua field harus diisi';
@@ -76,14 +83,13 @@ class ScheduleController {
         // Sanitize input
         $title = $this->sanitizeInput($_POST['title']);
         $description = $this->sanitizeInput($_POST['description']);
-		$date = $_POST['date'];
-        $startTime = $_POST['start_time'];
-        $endTime = $_POST['end_time'];
+		$scheduleDate = $_POST['schedule_date'];
+        $scheduleTime = $_POST['schedule_time'];
         $location = $this->sanitizeInput($_POST['location']);
         $type = $_POST['type'];
         $status = $_POST['status'];
 
-        $scheduleDatetime = $date . ' ' . $startTime;
+        $scheduleDatetime = $scheduleDate . ' ' . $scheduleTime;
          
          // Create schedule
          $scheduleModel = new Schedule();
@@ -93,7 +99,8 @@ class ScheduleController {
 			 'schedule_datetime' => $scheduleDatetime,
              'location' => $location,
              'type' => $type,
-             'status' => $status        ]);
+             'status' => $status
+         ]);
          
          if ($result) {
              $_SESSION['success'] = 'Jadwal berhasil ditambahkan';
@@ -117,6 +124,15 @@ class ScheduleController {
             exit;
         }
         
+        // Parse datetime into separate date and time for form fields
+        $schedule['date'] = date('Y-m-d', strtotime($schedule['schedule_datetime']));
+        $schedule['start_time'] = date('H:i', strtotime($schedule['schedule_datetime']));
+        // Assume end_time is not stored, or is derived from start_time + duration
+        // For simplicity, let's just use a default or derive from description if possible.
+        // Or if end_time is *always* stored, add it to the DB schema.
+        // For now, let's make end_time a default for the form.
+        $schedule['end_time'] = date('H:i', strtotime($schedule['schedule_datetime'] . ' +2 hours')); // Example: default 2 hours later
+
         $data = ['schedule' => $schedule];
         require_once BASE_PATH . '/app/views/admin/edit_schedule.php';
     }
@@ -126,7 +142,7 @@ class ScheduleController {
      */
     public function update($id) {
         // Validate input
-        $requiredFields = ['title', 'description', 'date', 'start_time', 'end_time', 'location', 'type', 'status'];
+        $requiredFields = ['title', 'description', 'schedule_date', 'schedule_time', 'location', 'type', 'status'];
         foreach ($requiredFields as $field) {
             if (!isset($_POST[$field]) || empty($_POST[$field])) {
                 $_SESSION['error'] = 'Semua field harus diisi';
@@ -138,17 +154,16 @@ class ScheduleController {
         // Sanitize input
         $title = $this->sanitizeInput($_POST['title']);
         $description = $this->sanitizeInput($_POST['description']);
-		$date = $_POST['date'];
-        $startTime = $_POST['start_time'];
-        $endTime = $_POST['end_time'];
+		$scheduleDate = $_POST['schedule_date'];
+        $scheduleTime = $_POST['schedule_time'];
         $location = $this->sanitizeInput($_POST['location']);
         $type = $_POST['type'];
         $status = $_POST['status'];
 
-        $scheduleDatetime = $date . ' ' . $startTime;
+        $scheduleDatetime = $scheduleDate . ' ' . $scheduleTime;
          
-         $scheduleModel = new Schedule();
-         $schedule = $scheduleModel->findById($id);
+        $scheduleModel = new Schedule();
+        $schedule = $scheduleModel->findById($id);
         
         if (!$schedule) {
             $_SESSION['error'] = 'Jadwal tidak ditemukan';
@@ -176,7 +191,7 @@ class ScheduleController {
     }
     
     /**
-     * View schedule page
+     * View schedule page (Admin)
      */
     public function view($id) {
         $scheduleModel = new Schedule();
@@ -188,6 +203,11 @@ class ScheduleController {
             exit;
         }
         
+        // Parse datetime into separate date and time for display
+        $schedule['date'] = date('Y-m-d', strtotime($schedule['schedule_datetime']));
+        $schedule['start_time'] = date('H:i', strtotime($schedule['schedule_datetime']));
+        $schedule['end_time'] = date('H:i', strtotime($schedule['schedule_datetime'] . ' +2 hours')); // Assuming a default end time
+
         $data = ['schedule' => $schedule];
         require_once BASE_PATH . '/app/views/admin/view_schedule.php';
     }

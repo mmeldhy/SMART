@@ -10,8 +10,7 @@ class Announcement {
     
     /**
      * Find announcement by ID
-     * 
-     * @param int $id
+     * * @param int $id
      * @return array|false Announcement data or false if not found
      */
     public function findById($id) {
@@ -22,8 +21,7 @@ class Announcement {
     
     /**
      * Get all announcements
-     * 
-     * @param int $limit Limit
+     * * @param int $limit Limit
      * @param int $offset Offset
      * @param string $search Search term
      * @return array Announcements
@@ -66,8 +64,7 @@ class Announcement {
     
     /**
      * Count total announcements
-     * 
-     * @param string $search Search term
+     * * @param string $search Search term
      * @return int Total count
      */
     public function countAll($type = '', $date_from = '', $date_to = '', $search = '') {
@@ -104,27 +101,29 @@ class Announcement {
     
     /**
      * Create a new announcement
-     * 
-     * @param array $data Announcement data
+     * * @param array $data Announcement data
      * @return bool Success status
      */
     public function create($data) {
         $stmt = $this->db->prepare("
-            INSERT INTO announcements (title, content, type, created_at)
-            VALUES (:title, :content, :type, NOW())
+            INSERT INTO announcements (title, content, type, start_date, end_date, is_pinned, image_url, created_at)
+            VALUES (:title, :content, :type, :start_date, :end_date, :is_pinned, :image_url, NOW())
         ");
         
         return $stmt->execute([
             'title' => $data['title'],
             'content' => $data['content'],
-            'type' => $data['type']
+            'type' => $data['type'],
+            'start_date' => $data['start_date'],
+            'end_date' => $data['end_date'],
+            'is_pinned' => $data['is_pinned'],
+            'image_url' => $data['image_url']
         ]);
     }
     
     /**
      * Update announcement
-     * 
-     * @param int $id Announcement ID
+     * * @param int $id Announcement ID
      * @param array $data Announcement data
      * @return bool Success status
      */
@@ -134,6 +133,10 @@ class Announcement {
                 title = :title,
                 content = :content,
                 type = :type,
+                start_date = :start_date,
+                end_date = :end_date,
+                is_pinned = :is_pinned,
+                image_url = :image_url,
                 updated_at = NOW()
             WHERE id = :id
         ");
@@ -142,14 +145,17 @@ class Announcement {
             'id' => $id,
             'title' => $data['title'],
             'content' => $data['content'],
-            'type' => $data['type']
+            'type' => $data['type'],
+            'start_date' => $data['start_date'],
+            'end_date' => $data['end_date'],
+            'is_pinned' => $data['is_pinned'],
+            'image_url' => $data['image_url']
         ]);
     }
     
     /**
      * Delete announcement
-     * 
-     * @param int $id Announcement ID
+     * * @param int $id Announcement ID
      * @return bool Success status
      */
     public function delete($id) {
@@ -159,8 +165,7 @@ class Announcement {
     
     /**
      * Get recent announcements
-     * 
-     * @param int $limit Limit
+     * * @param int $limit Limit
      * @return array Recent announcements
      */
     public function getRecent($limit = 5) {
