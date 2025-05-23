@@ -299,6 +299,7 @@ class ResidentController {
             'schedules' => $schedules,
             'currentPage' => $page,
             'totalPages' => $totalPages,
+            'totalSchedules' => $totalSchedules,
             'search' => $search
         ];
         
