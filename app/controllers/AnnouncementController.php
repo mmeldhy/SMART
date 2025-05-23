@@ -123,7 +123,7 @@ class AnnouncementController {
             'start_date' => $startDate,
             'end_date' => $endDate,
             'is_pinned' => $isPinned,
-            'image_url' => $imagePath // Save image path
+            'image_url' => $imagePath 
         ]);
         
         if ($result) {
